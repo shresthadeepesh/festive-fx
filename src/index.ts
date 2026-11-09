@@ -1,5 +1,5 @@
 export { createFx } from './engine';
-export { registerEffect, getEffect, listEffects, snow, rain, storm, fireworks, confetti, leaves, sakura, diyas, stars, fireflies } from './effects';
+export { registerEffect, getEffect, listEffects, snow, rain, storm, fireworks, confetti, leaves, sakura, diyas, stars, fireflies, marigold } from './effects';
 export type {
   BuiltinEffect,
   Effect,
