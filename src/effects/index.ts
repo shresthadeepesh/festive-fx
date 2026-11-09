@@ -1,4 +1,5 @@
 import type { EffectFactory, EffectName } from '../types';
+import { confetti } from './confetti';
 import { fireworks } from './fireworks';
 import { rain, storm } from './rain';
 import { snow } from './snow';
@@ -14,6 +15,7 @@ const registry = new Map<string, EffectFactory>([
   ['diwali', fireworks],
   ['deepawali', fireworks],
   ['tihar', fireworks],
+  ['confetti', confetti],
 ]);
 
 /** Add (or replace) an effect so it can be used by name everywhere, including `<festive-fx effect="...">`. */
@@ -29,4 +31,4 @@ export function listEffects(): string[] {
   return [...registry.keys()];
 }
 
-export { fireworks, rain, snow, storm };
+export { confetti, fireworks, rain, snow, storm };
