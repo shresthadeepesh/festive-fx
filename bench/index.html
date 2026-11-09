@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>festive-fx bench</title>
+  </head>
+  <body>
+    <!--
+      Steps each effect synchronously on a real 1920x1080 canvas and reports
+      ms/frame (update + draw) and canvas calls/frame. Runs on load; results
+      land in <pre id="out"> as JSON so headless browsers can --dump-dom them.
+
+        npm run build && open bench/index.html
+    -->
+    <canvas id="c" width="1920" height="1080" style="display: none"></canvas>
+    <pre id="out">running...</pre>
+    <script src="../dist/festive-fx.iife.js"></script>
+    <script>
+      const W = 1920;
+      const H = 1080;
+      const WARM = 240;
+      const FRAMES = 300;
+      const cases = [
+        ['snow', 1], ['rain', 1], ['storm', 1], ['fireworks', 1], ['fireworks', 3], ['confetti', 1],
+        ['leaves', 1], ['sakura', 1], ['diyas', 1], ['stars', 1], ['fireflies', 1], ['marigold', 1],
+        ['holi', 1], ['kites', 1],
+      ];
+      const counted = ['stroke', 'fill', 'fillRect', 'drawImage', 'save', 'restore', 'setTransform', 'beginPath'];
+      const ctx = document.getElementById('c').getContext('2d');
+      const opts = (density) => ({ density, speed: 1, wind: 0.2, size: 1, colors: undefined, ground: true });
+
+      function run(name, density, count) {
+        const fx = FestiveFx.getEffect(name)(opts(density));
+        fx.resize(W, H);
+        const tick = () => {
+          fx.update(1 / 60);
+          ctx.setTransform(1, 0, 0, 1, 0, 0);
+          ctx.clearRect(0, 0, W, H);
+          ctx.globalAlpha = 1;
+          ctx.globalCompositeOperation = 'source-over';
+          fx.draw(ctx);
+        };
+        // Seeded bursts so burst-driven effects have something on screen
+        for (let i = 0; i < WARM; i++) {
+          if (i % 40 === 0) fx.burst?.(W * (0.2 + 0.6 * ((i * 0.37) % 1)), H * 0.3);
+          tick();
+        }
+        const calls = Object.fromEntries(counted.map((k) => [k, 0]));
+        const originals = {};
+        if (count) {
+          for (const k of counted) {
+            originals[k] = ctx[k];
+            ctx[k] = function (...a) {
+              calls[k]++;
+              return originals[k].apply(this, a);
+            };
+          }
+        }
+        const t0 = performance.now();
+        for (let i = 0; i < FRAMES; i++) {
+          if (i % 40 === 0) fx.burst?.(W * (0.2 + 0.6 * ((i * 0.37) % 1)), H * 0.3);
+          tick();
+        }
+        // Force the raster to finish so draw cost is included
+        ctx.getImageData(0, 0, 1, 1);
+        const ms = (performance.now() - t0) / FRAMES;
+        if (count) for (const k of counted) ctx[k] = originals[k];
+        return count ? Object.fromEntries(Object.entries(calls).map(([k, v]) => [k, Math.round(v / FRAMES)])) : ms;
+      }
+
+      const results = {};
+      for (const [name, density] of cases) {
+        const key = `${name}@${density}`;
+        const ms = Math.min(run(name, density, false), run(name, density, false));
+        results[key] = { ms: +ms.toFixed(2), calls: run(name, density, true) };
+      }
+      document.getElementById('out').textContent = JSON.stringify(results);
+    </script>
+  </body>
+</html>
