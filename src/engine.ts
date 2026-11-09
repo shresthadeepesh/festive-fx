@@ -117,22 +117,33 @@ export function createFx(options: FxOptions = {}): FxController {
 
   let w = 0;
   let h = 0;
+  let dpr = 0;
   let raf = 0;
   let last = 0;
   let running = false;
   let destroyed = false;
+  /** False while a wrapped target is scrolled out of view. */
+  let onScreen = true;
   let durationTimer: ReturnType<typeof setTimeout> | undefined;
 
   const measure = () => {
+    let nw: number;
+    let nh: number;
     if (fullscreen) {
-      w = window.innerWidth;
-      h = window.innerHeight;
+      nw = window.innerWidth;
+      nh = window.innerHeight;
     } else {
       const r = host.getBoundingClientRect();
-      w = r.width;
-      h = r.height;
+      nw = r.width;
+      nh = r.height;
     }
-    const dpr = Math.min(window.devicePixelRatio || 1, maxDpr);
+    const ndpr = Math.min(window.devicePixelRatio || 1, maxDpr);
+    // Assigning canvas.width reallocates the backing store and wipes context
+    // state, so skip it when observers fire without a real size change.
+    if (nw === w && nh === h && ndpr === dpr) return;
+    w = nw;
+    h = nh;
+    dpr = ndpr;
     canvas.width = Math.max(1, Math.round(w * dpr));
     canvas.height = Math.max(1, Math.round(h * dpr));
     ctx?.setTransform(dpr, 0, 0, dpr, 0, 0);
@@ -157,7 +168,7 @@ export function createFx(options: FxOptions = {}): FxController {
   };
 
   const loop = (on: boolean) => {
-    if (on && !raf && !document.hidden) {
+    if (on && !raf) {
       last = 0;
       raf = requestAnimationFrame(frame);
     } else if (!on && raf) {
@@ -166,8 +177,18 @@ export function createFx(options: FxOptions = {}): FxController {
     }
   };
 
-  const onVisibility = () => loop(running && !document.hidden);
-  document.addEventListener('visibilitychange', onVisibility);
+  const sync = () => loop(running && onScreen && !document.hidden);
+  document.addEventListener('visibilitychange', sync);
+
+  // A wrapped target scrolled out of view costs nothing: pause until it's back.
+  let io: IntersectionObserver | null = null;
+  if (!fullscreen && typeof IntersectionObserver !== 'undefined') {
+    io = new IntersectionObserver((entries) => {
+      onScreen = entries[entries.length - 1].isIntersecting;
+      sync();
+    });
+    io.observe(host);
+  }
 
   let ro: ResizeObserver | null = null;
   const onWindowResize = () => measure();
@@ -206,7 +227,7 @@ export function createFx(options: FxOptions = {}): FxController {
       if (respectRM && prefersReducedMotion()) return;
       running = true;
       canvas.style.opacity = '1';
-      loop(true);
+      sync();
     },
     stop() {
       running = false;
@@ -239,7 +260,8 @@ export function createFx(options: FxOptions = {}): FxController {
       controller.stop();
       destroyed = true;
       clearTimeout(durationTimer);
-      document.removeEventListener('visibilitychange', onVisibility);
+      document.removeEventListener('visibilitychange', sync);
+      io?.disconnect();
       window.removeEventListener('resize', onWindowResize);
       pointerTarget.removeEventListener('pointerdown', onPointer as EventListener);
       ro?.disconnect();
