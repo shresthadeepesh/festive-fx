@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>festive-fx demo</title>
+    <style>
+      :root { color-scheme: dark; font-family: system-ui, sans-serif; }
+      body { margin: 0; min-height: 100vh; background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%); color: #e8e8f0; }
+      main { max-width: 760px; margin: 0 auto; padding: 32px 16px; position: relative; z-index: 10000; }
+      h1 { margin: 0 0 4px; font-size: 28px; }
+      p { color: #a9b0c3; margin: 0 0 20px; }
+      .effects { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
+      button { font: inherit; padding: 8px 14px; border-radius: 999px; border: 1px solid #3a4256; background: #161b26; color: inherit; cursor: pointer; }
+      button[aria-pressed='true'] { background: #ffb347; color: #1a1205; border-color: #ffb347; }
+      .controls { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; margin-bottom: 28px; }
+      label { display: grid; gap: 4px; font-size: 13px; color: #a9b0c3; }
+      festive-fx { height: 220px; border-radius: 16px; overflow: hidden; background: linear-gradient(160deg, #2b1055, #7597de); display: grid; place-items: center; }
+      festive-fx h2 { margin: 0; text-shadow: 0 2px 12px #0008; }
+      code { background: #0008; padding: 2px 6px; border-radius: 6px; }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>festive-fx</h1>
+      <p>Pick an effect, then click anywhere: fireworks launch a rocket, diyas release a lantern, marigold throws petals, kites get cut, holi throws gulal, stars shoot, storm strikes lightning.</p>
+      <div class="effects" id="effects"></div>
+      <div class="controls">
+        <label>Density <input id="density" type="range" min="0" max="3" step="0.1" value="1" /></label>
+        <label>Speed <input id="speed" type="range" min="0.2" max="3" step="0.1" value="1" /></label>
+        <label>Wind <input id="wind" type="range" min="-1" max="1" step="0.1" value="0" /></label>
+        <label>Size <input id="size" type="range" min="0.5" max="2.5" step="0.1" value="1" /></label>
+        <label>Ground <input id="ground" type="checkbox" checked /></label>
+      </div>
+
+      <festive-fx effect="snow" density="1.2">
+        <h2>Wrapped with <code>&lt;festive-fx&gt;</code></h2>
+      </festive-fx>
+    </main>
+
+    <script src="../dist/festive-fx.iife.js"></script>
+    <script>
+      const fx = FestiveFx.createFx({ effect: 'fireworks', interactive: true, respectReducedMotion: false });
+      const names = {
+        'tihar night': ['stars', 'diyas', 'fireworks'],
+        fireworks: 'fireworks', diyas: 'diyas', marigold: 'marigold', kites: 'kites', holi: 'holi',
+        stars: 'stars', fireflies: 'fireflies', snow: 'snow', rain: 'rain', storm: 'storm',
+        confetti: 'confetti', leaves: 'leaves', sakura: 'sakura',
+      };
+      const box = document.getElementById('effects');
+      for (const [name, effect] of Object.entries(names)) {
+        const b = document.createElement('button');
+        b.textContent = name;
+        b.setAttribute('aria-pressed', String(name === 'fireworks'));
+        b.onclick = (e) => {
+          e.stopPropagation();
+          fx.update({ effect });
+          box.querySelectorAll('button').forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
+        };
+        box.append(b);
+      }
+      for (const key of ['density', 'speed', 'wind', 'size']) {
+        document.getElementById(key).oninput = (e) => fx.update({ [key]: Number(e.target.value) });
+      }
+      document.getElementById('ground').onchange = (e) => fx.update({ ground: e.target.checked });
+    </script>
+  </body>
+</html>
