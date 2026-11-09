@@ -1,6 +1,6 @@
 {
   "name": "festive-fx",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Framework-agnostic festive overlay effects: snow, rain with splashes, Tihar/Diwali rockets, confetti, falling leaves. Works with React, Vue, Angular, Svelte or plain HTML.",
   "license": "MIT",
   "author": "Dipesh Shrestha",
