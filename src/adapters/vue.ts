@@ -12,7 +12,7 @@ import type { EffectName, FxController, FxOptions } from '../types';
 export const FestiveFx = defineComponent({
   name: 'FestiveFx',
   props: {
-    effect: { type: String as PropType<EffectName>, default: 'snow' },
+    effect: { type: [String, Array] as PropType<EffectName | EffectName[]>, default: 'snow' },
     density: Number,
     speed: Number,
     wind: Number,

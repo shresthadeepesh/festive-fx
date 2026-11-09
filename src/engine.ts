@@ -33,10 +33,35 @@ function noopController(): FxController {
   return { start: noop, stop: noop, clear: noop, update: noop, burst: noop, destroy: noop, running: false, canvas: null };
 }
 
-function instantiate(name: EffectName, opts: ResolvedEffectOptions): Effect {
+type EffectSpec = EffectName | EffectName[];
+
+const specKey = (spec: EffectSpec): string => (Array.isArray(spec) ? spec.join(',') : spec);
+
+function instantiateOne(name: EffectName, opts: ResolvedEffectOptions): Effect {
   const factory = getEffect(name);
   if (!factory) throw new Error(`[festive-fx] unknown effect "${name}". Register it with registerEffect().`);
   return factory(opts);
+}
+
+/** One effect, or several layered back to front that share options and bursts. */
+function instantiate(spec: EffectSpec, opts: ResolvedEffectOptions): Effect {
+  const names = Array.isArray(spec) ? spec : [spec];
+  if (names.length === 0) throw new Error('[festive-fx] effect list is empty');
+  if (names.length === 1) return instantiateOne(names[0], opts);
+  const layers = names.map((n) => instantiateOne(n, opts));
+  return {
+    resize: (w, h) => layers.forEach((l) => l.resize(w, h)),
+    update: (dt) => layers.forEach((l) => l.update(dt)),
+    draw(ctx) {
+      for (const l of layers) {
+        // Each layer gets the same clean state the engine promises a single effect.
+        ctx.save();
+        l.draw(ctx);
+        ctx.restore();
+      }
+    },
+    burst: (x, y) => layers.forEach((l) => l.burst?.(x, y)),
+  };
 }
 
 /**
@@ -58,8 +83,8 @@ export function createFx(options: FxOptions = {}): FxController {
 
   const eff: ResolvedEffectOptions = { density: 1, speed: 1, wind: 0, size: 1, colors: undefined, ground: true };
   applyEffectOptions(eff, options);
-  let effectName: EffectName = options.effect ?? 'snow';
-  let effect = instantiate(effectName, eff);
+  let effectName = specKey(options.effect ?? 'snow');
+  let effect = instantiate(options.effect ?? 'snow', eff);
 
   const canvas = document.createElement('canvas');
   canvas.setAttribute('aria-hidden', 'true');
@@ -193,9 +218,9 @@ export function createFx(options: FxOptions = {}): FxController {
     update(next) {
       if (destroyed) return;
       applyEffectOptions(eff, next);
-      if (next.effect && next.effect !== effectName) {
+      if (next.effect && specKey(next.effect) !== effectName) {
         effect = instantiate(next.effect, eff);
-        effectName = next.effect;
+        effectName = specKey(next.effect);
       }
       if ('zIndex' in next) canvas.style.zIndex = String(num(next.zIndex, 9999));
       if ('interactive' in next) interactive = !!next.interactive;

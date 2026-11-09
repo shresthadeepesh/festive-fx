@@ -38,8 +38,11 @@ export interface EffectOptions {
 }
 
 export interface FxOptions extends EffectOptions {
-  /** Which effect to render. Default `'snow'`. */
-  effect?: EffectName;
+  /**
+   * Which effect to render. Default `'snow'`. Pass an array to layer several in
+   * one canvas, back to front: `['stars', 'diyas', 'fireworks']`.
+   */
+  effect?: EffectName | EffectName[];
   /**
    * Element (or CSS selector) the overlay covers. Omit to cover the whole viewport.
    * A statically positioned target gets `position: relative` while the overlay is mounted.

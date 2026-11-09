@@ -85,6 +85,7 @@ export class FestiveFxElement extends Base {
       else if (name === 'ground') out[key] = raw !== 'false';
       else if (raw === null) out[key] = undefined;
       else if (name === 'colors') out[key] = raw.split(',').map((c) => c.trim()).filter(Boolean);
+      else if (name === 'effect' && raw.includes(',')) out[key] = raw.split(',').map((c) => c.trim()).filter(Boolean);
       else if ((NUMERIC as readonly string[]).includes(name)) out[key] = parseFloat(raw);
       else out[key] = raw;
     }
