@@ -8,7 +8,7 @@
     "type": "git",
     "url": "git+https://github.com/shresthadeepesh/festive-fx.git"
   },
-  "homepage": "https://github.com/shresthadeepesh/festive-fx#readme",
+  "homepage": "https://shresthadeepesh.github.io/festive-fx/",
   "bugs": {
     "url": "https://github.com/shresthadeepesh/festive-fx/issues"
   },
@@ -76,7 +76,8 @@
     "dev": "tsup --watch",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
-    "prepublishOnly": "npm run typecheck && npm test && npm run build"
+    "prepublishOnly": "npm run typecheck && npm test && npm run build",
+    "site": "npm run build && rm -rf _site && mkdir -p _site && cp -R site/. _site/ && cp dist/festive-fx.iife.js _site/ && touch _site/.nojekyll"
   },
   "keywords": [
     "snow",

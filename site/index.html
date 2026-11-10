@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>festive-fx · festival effects for any frontend</title>
+    <meta
+      name="description"
+      content="Tihar rockets, diyas, marigold garlands, Dashain kites, Holi colours, snow, rain and more. One small canvas overlay for React, Vue, Angular, Svelte or plain HTML."
+    />
+    <meta property="og:title" content="festive-fx" />
+    <meta property="og:description" content="Festival effects for any frontend: Tihar rockets, diyas, kites, Holi colours, snow and more." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./style.css" />
+    <script defer src="./festive-fx.iife.js"></script>
+    <script defer src="./app.js"></script>
+  </head>
+  <body>
+    <div class="rm-banner" id="rm-banner" hidden>
+      <span>Animations are paused because your system asks for reduced motion.</span>
+      <button type="button" id="rm-play">Play them anyway</button>
+    </div>
+
+    <header class="hero" id="hero">
+      <nav class="nav">
+        <a class="brand" href="#top" aria-label="festive-fx home">festive<span>-fx</span></a>
+        <div class="nav-links">
+          <a href="#gallery">Effects</a>
+          <a href="#playground">Playground</a>
+          <a href="https://github.com/shresthadeepesh/festive-fx" rel="noopener">GitHub</a>
+          <a href="https://www.npmjs.com/package/festive-fx" rel="noopener">npm</a>
+        </div>
+      </nav>
+
+      <div class="hero-body" id="top">
+        <p class="eyebrow">Tihar · Dashain · Holi · and every other celebration</p>
+        <h1>Festival effects for <em>any</em> frontend.</h1>
+        <p class="lede">
+          Rockets and anar fountains, flickering diyas, marigold garlands, Dashain kites, Holi colours, snow, rain
+          and more: one click-through canvas for React, Vue, Angular, Svelte or plain HTML.
+        </p>
+        <div class="hero-actions">
+          <button class="install" type="button" data-copy="npm i festive-fx" aria-label="Copy install command">
+            <code>npm i festive-fx</code><span class="copy-hint">copy</span>
+          </button>
+          <a class="btn btn-primary" href="#playground">Open the playground</a>
+        </div>
+        <p class="hint">Click anywhere up here to launch a rocket.</p>
+      </div>
+    </header>
+
+    <main>
+      <section class="section" id="gallery" aria-labelledby="gallery-title">
+        <div class="section-head">
+          <h2 id="gallery-title">Thirteen effects, all live</h2>
+          <p>Each card is running the real thing. Click inside a card to trigger its burst.</p>
+        </div>
+        <div class="grid" id="grid"></div>
+      </section>
+
+      <section class="section" id="playground" aria-labelledby="pg-title">
+        <div class="section-head">
+          <h2 id="pg-title">Playground</h2>
+          <p>Tune it, layer effects, then copy the code for your framework.</p>
+        </div>
+
+        <div class="pg">
+          <div class="pg-stage-wrap">
+            <div class="pg-stage bg-night" id="stage">
+              <div class="mock">
+                <p class="mock-kicker">Your app lives here</p>
+                <p class="mock-title">The overlay never blocks clicks.</p>
+                <button type="button" class="btn btn-ghost" id="mock-btn">Clicked 0 times</button>
+              </div>
+            </div>
+            <div class="pg-stage-bar">
+              <div class="seg" role="group" aria-label="Stage background" id="bg-picker">
+                <button type="button" data-bg="night" aria-pressed="true">Night</button>
+                <button type="button" data-bg="dusk" aria-pressed="false">Dusk</button>
+                <button type="button" data-bg="day" aria-pressed="false">Day</button>
+                <button type="button" data-bg="light" aria-pressed="false">Light</button>
+              </div>
+              <button type="button" class="btn btn-ghost" id="fullscreen-btn" aria-pressed="false">
+                Preview on whole page
+              </button>
+            </div>
+          </div>
+
+          <form class="pg-controls" id="controls" onsubmit="return false">
+            <fieldset>
+              <legend>
+                Effect
+                <label class="inline">
+                  <input type="checkbox" id="layer" /> Layer several
+                </label>
+              </legend>
+              <div class="chips" id="chips"></div>
+              <p class="note" id="layer-note" hidden>Drawn back to front in the order you pick them.</p>
+            </fieldset>
+
+            <fieldset class="sliders">
+              <legend>Tuning</legend>
+              <label>Density <output for="density" id="density-out">1</output>
+                <input type="range" id="density" min="0" max="3" step="0.1" value="1" />
+              </label>
+              <label>Speed <output id="speed-out">1</output>
+                <input type="range" id="speed" min="0.2" max="3" step="0.1" value="1" />
+              </label>
+              <label>Wind <output id="wind-out">0</output>
+                <input type="range" id="wind" min="-1" max="1" step="0.1" value="0" />
+              </label>
+              <label>Size <output id="size-out">1</output>
+                <input type="range" id="size" min="0.5" max="2.5" step="0.1" value="1" />
+              </label>
+            </fieldset>
+
+            <fieldset>
+              <legend>Colours</legend>
+              <div class="chips" id="palettes"></div>
+              <input type="text" id="colors" placeholder="#ffd700, #ff9933, hotpink" aria-label="Custom colours" />
+            </fieldset>
+
+            <fieldset class="toggles">
+              <legend>Behaviour</legend>
+              <label class="inline"><input type="checkbox" id="ground" checked /> Edge decorations (ground)</label>
+              <label class="inline"><input type="checkbox" id="interactive" checked /> Click to burst</label>
+            </fieldset>
+          </form>
+        </div>
+
+        <div class="code">
+          <div class="tabs" role="tablist" id="tabs"></div>
+          <div class="code-body">
+            <pre><code id="code"></code></pre>
+            <button type="button" class="btn btn-ghost copy-code" id="copy-code">Copy</button>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <p>
+        MIT licensed ·
+        <a href="https://github.com/shresthadeepesh/festive-fx" rel="noopener">Source on GitHub</a> ·
+        <a href="https://www.npmjs.com/package/festive-fx" rel="noopener">festive-fx on npm</a>
+      </p>
+    </footer>
+  </body>
+</html>
