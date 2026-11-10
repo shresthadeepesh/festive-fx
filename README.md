@@ -1,5 +1,7 @@
 # festive-fx
 
+**[Live demo and playground →](https://shresthadeepesh.github.io/festive-fx/)**
+
 Lightweight, dependency-free festive overlays for any frontend: **Tihar / Deepawali rockets**, **diyas and sky lanterns**, **marigold garlands**, **Dashain kites**, **Holi colours**, **snow**, **rain**, **thunderstorms**, **stars**, **fireflies**, **confetti**, **falling leaves** and **sakura petals**. Layer several in one canvas.
 
 - One canvas, `pointer-events: none`, never blocks your UI
@@ -201,6 +203,7 @@ npm test          # vitest + jsdom
 npm run build     # dist/: ESM + CJS + d.ts + IIFE
 open examples/index.html
 open bench/index.html   # ms/frame and canvas calls/frame per effect at 1920x1080
+npm run site && open _site/index.html   # the demo site, deployed to GitHub Pages on push to main
 ```
 
 Performance notes for effect authors: draw with `place()` (one `setTransform`)
