@@ -11,6 +11,7 @@ import { laliGurans, leaves, sakura } from './leaves';
 import { laxmiPaila } from './laxmi-paila';
 import { rangoli } from './rangoli';
 import { prayerFlags } from './prayer-flags';
+import { newyear } from './newyear';
 import { coins } from './coins';
 import { teej } from './teej';
 import { chhath } from './chhath';
@@ -67,6 +68,9 @@ const registry = new Map<string, EffectFactory>([
   ['chhath', chhath],
   ['chhath-puja', chhath],
   // Other festivals
+  ['newyear', newyear],
+  ['new-year', newyear],
+  ['countdown', newyear],
   // Nature
   // UI moments
 ]);
@@ -97,6 +101,7 @@ export {
   laxmiPaila,
   leaves,
   marigold,
+  newyear,
   prayerFlags,
   rain,
   rangoli,
