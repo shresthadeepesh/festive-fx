@@ -205,9 +205,10 @@ export const diyas: EffectFactory = (o) => {
 
       // Sky lanterns
       for (const l of lanterns) {
-        const k = l.z * (0.7 + 0.5 * clamp(l.y / h, 0, 1)) * sz;
+        const depth = h > 0 ? l.y / h : 1; // guard: a 0-height surface would give NaN
+        const k = l.z * (0.7 + 0.5 * clamp(depth, 0, 1)) * sz;
         const fl = flicker(l.seed);
-        const a = clamp(0.35 + 0.65 * (l.y / h), 0.3, 1);
+        const a = clamp(0.35 + 0.65 * depth, 0.3, 1);
         ctx.globalCompositeOperation = 'lighter';
         ctx.globalAlpha = 0.45 * a * fl;
         stamp(ctx, glow(l.color), l.x, l.y + 5 * k, 120 * k);

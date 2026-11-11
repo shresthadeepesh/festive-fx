@@ -119,7 +119,7 @@ export const kites: EffectFactory = (o) => {
   const make = (slot: number, of: number, state: State, delay = 0): Kite => {
     const by = rand(h * 0.12, h * 0.5);
     // Higher kites are farther away, so smaller
-    const z = clamp(0.6 + (by / h) * 1.1, 0.6, 1.15);
+    const z = clamp(0.6 + (h > 0 ? by / h : 0) * 1.1, 0.6, 1.15); // guard 0-height surfaces
     const bx = (w * (slot + 0.5)) / Math.max(1, of) + rand(-40, 40);
     const pal = palette();
     const a = pick(pal);
