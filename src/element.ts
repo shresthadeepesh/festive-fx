@@ -2,7 +2,7 @@ import { createFx } from './engine';
 import type { FxController, FxOptions } from './types';
 
 const NUMERIC = ['density', 'speed', 'wind', 'size', 'z-index', 'duration'] as const;
-const LIVE = ['effect', 'colors', 'interactive', 'ground', ...NUMERIC] as const;
+const LIVE = ['effect', 'colors', 'symbols', 'text', 'interactive', 'ground', ...NUMERIC] as const;
 const STRUCTURAL = ['fullscreen', 'autostart', 'respect-reduced-motion'] as const;
 
 const camel = (s: string) => s.replace(/-([a-z])/g, (_, c: string) => c.toUpperCase());
@@ -84,7 +84,7 @@ export class FestiveFxElement extends Base {
       if (name === 'interactive') out[key] = raw !== null && raw !== 'false';
       else if (name === 'ground') out[key] = raw !== 'false';
       else if (raw === null) out[key] = undefined;
-      else if (name === 'colors') out[key] = raw.split(',').map((c) => c.trim()).filter(Boolean);
+      else if (name === 'colors' || name === 'symbols') out[key] = raw.split(',').map((c) => c.trim()).filter(Boolean);
       else if (name === 'effect' && raw.includes(',')) out[key] = raw.split(',').map((c) => c.trim()).filter(Boolean);
       else if ((NUMERIC as readonly string[]).includes(name)) out[key] = parseFloat(raw);
       else out[key] = raw;

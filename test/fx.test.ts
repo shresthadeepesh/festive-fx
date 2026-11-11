@@ -33,6 +33,8 @@ const opts = (o: Partial<ResolvedEffectOptions> = {}): ResolvedEffectOptions => 
   size: 1,
   colors: undefined,
   ground: true,
+  text: undefined,
+  symbols: undefined,
   ...o,
 });
 

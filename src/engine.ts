@@ -11,6 +11,8 @@ function applyEffectOptions(target: ResolvedEffectOptions, o: Partial<FxOptions>
   if ('wind' in o) target.wind = num(o.wind, 0);
   if ('size' in o) target.size = Math.max(0.1, num(o.size, 1));
   if ('ground' in o) target.ground = o.ground ?? true;
+  if ('text' in o) target.text = o.text || undefined;
+  if ('symbols' in o) target.symbols = o.symbols && o.symbols.length ? [...o.symbols] : undefined;
   if ('colors' in o) target.colors = o.colors && o.colors.length ? [...o.colors] : undefined;
 }
 
@@ -61,6 +63,9 @@ function instantiate(spec: EffectSpec, opts: ResolvedEffectOptions): Effect {
       }
     },
     burst: (x, y) => layers.forEach((l) => l.burst?.(x, y)),
+    pointer: layers.some((l) => l.pointer)
+      ? (x, y, inside) => layers.forEach((l) => l.pointer?.(x, y, inside))
+      : undefined,
   };
 }
 
@@ -81,7 +86,7 @@ export function createFx(options: FxOptions = {}): FxController {
   const maxDpr = num(options.maxDpr, 2);
   const respectRM = options.respectReducedMotion ?? true;
 
-  const eff: ResolvedEffectOptions = { density: 1, speed: 1, wind: 0, size: 1, colors: undefined, ground: true };
+  const eff: ResolvedEffectOptions = { density: 1, speed: 1, wind: 0, size: 1, colors: undefined, ground: true, text: undefined, symbols: undefined };
   applyEffectOptions(eff, options);
   let effectName = specKey(options.effect ?? 'snow');
   let effect = instantiate(options.effect ?? 'snow', eff);
@@ -211,6 +216,17 @@ export function createFx(options: FxOptions = {}): FxController {
   const pointerTarget: EventTarget = fullscreen ? window : host;
   pointerTarget.addEventListener('pointerdown', onPointer as EventListener);
 
+  // Passive cursor tracking for effects that implement pointer()
+  const onMove = (e: PointerEvent) => {
+    if (!effect.pointer) return;
+    const r = canvas.getBoundingClientRect();
+    effect.pointer(e.clientX - r.left, e.clientY - r.top, true);
+  };
+  const onLeave = () => effect.pointer?.(-1, -1, false);
+  const leaveTarget: EventTarget = fullscreen ? document.documentElement : host;
+  pointerTarget.addEventListener('pointermove', onMove as EventListener, { passive: true });
+  leaveTarget.addEventListener('pointerleave', onLeave);
+
   const scheduleDuration = (ms: number | undefined) => {
     clearTimeout(durationTimer);
     if (ms && ms > 0) {
@@ -264,6 +280,8 @@ export function createFx(options: FxOptions = {}): FxController {
       io?.disconnect();
       window.removeEventListener('resize', onWindowResize);
       pointerTarget.removeEventListener('pointerdown', onPointer as EventListener);
+      pointerTarget.removeEventListener('pointermove', onMove as EventListener);
+      leaveTarget.removeEventListener('pointerleave', onLeave);
       ro?.disconnect();
       canvas.remove();
       if (restorePosition !== null) host.style.position = restorePosition;

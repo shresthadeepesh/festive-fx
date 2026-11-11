@@ -29,6 +29,10 @@ export interface EffectOptions {
   size?: number;
   /** Override the effect's palette with any CSS colors. */
   colors?: string[];
+  /** Text an effect draws, e.g. the year for `newyear`. */
+  text?: string;
+  /** Glyphs for symbol effects such as `emoji`: `['🪔', '🎉']`. */
+  symbols?: string[];
   /**
    * Let effects decorate the edges: snow piles up, rain mists, leaves settle,
    * fireworks get ground fountains (anar), diyas sit along the bottom, marigold
@@ -74,6 +78,8 @@ export interface ResolvedEffectOptions {
   size: number;
   colors: string[] | undefined;
   ground: boolean;
+  text: string | undefined;
+  symbols: string[] | undefined;
 }
 
 /** One running effect instance. All coordinates are CSS pixels; `dt` is seconds. */
@@ -85,6 +91,12 @@ export interface Effect {
   draw(ctx: CanvasRenderingContext2D): void;
   /** Optional one-shot at a point (fireworks launch, confetti pop, ...). */
   burst?(x: number, y: number): void;
+  /**
+   * Optional: the pointer moved over the target (`inside` true), or left it
+   * (`inside` false). Passive, no `interactive` needed: for effects that react
+   * to the cursor, like fog parting or a sparkler trail.
+   */
+  pointer?(x: number, y: number, inside: boolean): void;
 }
 
 export type EffectFactory = (options: ResolvedEffectOptions) => Effect;
