@@ -22,6 +22,7 @@ export type BuiltinEffect =
   | 'butterflies'
   | 'hail'
   | 'sunbeams'
+  | 'balloons'
   | 'christmas'
   | 'newyear'
   | 'eid'

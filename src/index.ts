@@ -6,6 +6,7 @@ export {
   getEffect,
   listEffects,
   aurora,
+  balloons,
   butterflies,
   chhath,
   christmas,
