@@ -1,5 +1,7 @@
 # festive-fx
 
+[![festive-fx landing page: Tihar rockets, an anar fountain, sky lanterns and a row of diyas over a night sky](https://raw.githubusercontent.com/shresthadeepesh/festive-fx/main/docs/screenshots/hero.webp)](https://shresthadeepesh.github.io/festive-fx/)
+
 **[Live demo and playground →](https://shresthadeepesh.github.io/festive-fx/)**
 
 Lightweight, dependency-free festive overlays for any frontend: **Tihar / Deepawali rockets**, **diyas and sky lanterns**, **marigold garlands**, **Dashain kites**, **Holi colours**, **snow**, **rain**, **thunderstorms**, **stars**, **fireflies**, **confetti**, **falling leaves** and **sakura petals**. Layer several in one canvas.
@@ -15,6 +17,16 @@ Lightweight, dependency-free festive overlays for any frontend: **Tihar / Deepaw
 ```sh
 npm i festive-fx
 ```
+
+## Demo
+
+Every effect runs live in the [gallery](https://shresthadeepesh.github.io/festive-fx/#gallery). Click a card to trigger its burst:
+
+[![Gallery of live effect cards: fireworks, diyas, marigold garlands, kites, Holi colours, confetti, snow and rain](https://raw.githubusercontent.com/shresthadeepesh/festive-fx/main/docs/screenshots/gallery.webp)](https://shresthadeepesh.github.io/festive-fx/#gallery)
+
+The [playground](https://shresthadeepesh.github.io/festive-fx/#playground) layers effects, tunes density, speed, wind, size and colours, and writes the code for HTML, JavaScript, React, Vue or Angular:
+
+[![Playground with fireworks, stars and diyas layered over a mock app, tuning controls, and generated HTML code](https://raw.githubusercontent.com/shresthadeepesh/festive-fx/main/docs/screenshots/playground.webp)](https://shresthadeepesh.github.io/festive-fx/#playground)
 
 ## Effects
 
