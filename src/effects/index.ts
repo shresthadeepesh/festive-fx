@@ -14,6 +14,7 @@ import { prayerFlags } from './prayer-flags';
 import { christmas } from './christmas';
 import { newyear } from './newyear';
 import { eid } from './eid';
+import { lunarNewYear } from './lunar-new-year';
 import { coins } from './coins';
 import { teej } from './teej';
 import { chhath } from './chhath';
@@ -79,6 +80,9 @@ const registry = new Map<string, EffectFactory>([
   ['eid', eid],
   ['ramadan', eid],
   ['fanoos', eid],
+  ['lunar-new-year', lunarNewYear],
+  ['chinese-new-year', lunarNewYear],
+  ['spring-festival', lunarNewYear],
   // Nature
   // UI moments
 ]);
@@ -110,6 +114,7 @@ export {
   laliGurans,
   laxmiPaila,
   leaves,
+  lunarNewYear,
   marigold,
   newyear,
   prayerFlags,

@@ -18,6 +18,7 @@ export {
   laliGurans,
   laxmiPaila,
   leaves,
+  lunarNewYear,
   marigold,
   newyear,
   prayerFlags,

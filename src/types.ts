@@ -20,6 +20,7 @@ export type BuiltinEffect =
   | 'christmas'
   | 'newyear'
   | 'eid'
+  | 'lunar-new-year'
   | 'coins'
   | 'teej'
   | 'chhath';
