@@ -4,11 +4,11 @@
 
 **[Live demo and playground →](https://shresthadeepesh.github.io/festive-fx/)**
 
-Lightweight, dependency-free festive overlays for any frontend: **Tihar / Deepawali rockets**, **diyas and sky lanterns**, **marigold garlands**, **Dashain kites**, **Holi colours**, **snow**, **rain**, **thunderstorms**, **stars**, **fireflies**, **confetti**, **falling leaves** and **sakura petals**. Layer several in one canvas.
+Lightweight, dependency-free festive overlays for any frontend: 34 effects, from **Tihar rockets**, **diyas**, **Laxmi paila**, **rangoli**, **marigold garlands**, **Dashain kites**, **prayer flags** and **Holi colours** to **New Year**, **Christmas lights**, **Eid lanterns**, **snow**, **thunderstorms**, **aurora**, **butterflies**, **balloons** and a cursor **sparkler**. Layer several in one canvas.
 
 - One canvas, `pointer-events: none`, never blocks your UI
 - Works in React, Vue, Angular, Svelte, Solid, plain HTML. The core is vanilla TS, plus a Web Component and thin React and Vue wrappers
-- ~45 KB minified for the drop-in script build, with zero runtime dependencies
+- ~147 KB minified (~54 KB gzipped) for the drop-in script build with all 34 effects, zero runtime dependencies
 - HiDPI aware, respects `prefers-reduced-motion`, safe to import during SSR
 - Pauses in background tabs and while a wrapped target is scrolled off-screen
 - Batched drawing: thousands of firework sparks render in a few dozen canvas calls
@@ -30,6 +30,36 @@ The [playground](https://shresthadeepesh.github.io/festive-fx/#playground) layer
 
 ## Effects
 
+**Nepal & South Asia**
+
+| name | aliases | `burst(x, y)` |
+| --- | --- | --- |
+| `fireworks` | `rockets`, `diwali`, `deepawali`, `tihar` | launches a rocket that bursts at (x, y) |
+| `diyas` | `lanterns`, `lights` | releases a sky lantern |
+| `laxmi-paila` | `paila`, `footprints` | a new trail of footprints walks to the point |
+| `rangoli` | `mandala`, `kolam` | pours a new rangoli at the point |
+| `marigold` | `sayapatri`, `garland` | throws a handful of petals |
+| `coins` | `dhanteras` | a fountain of coins |
+| `kites` | `changa`, `dashain` | cuts the nearest kite loose, or launches a new one |
+| `prayer-flags` | `lungta`, `losar` | sends a gust ripple along the nearest string |
+| `lali-gurans` | `laligurans`, `rhododendron` | blows nearby petals away |
+| `holi` | `gulal` | throws a fistful of colour |
+| `teej` | `bangles` | a shower of bangles |
+| `chhath` | `chhath-puja` | floats a new diya on the water |
+
+**Festivals worldwide**
+
+| name | aliases | `burst(x, y)` |
+| --- | --- | --- |
+| `newyear` | `new-year`, `countdown` | gold burst; set the year with `text` |
+| `christmas` | `xmas`, `fairy-lights` | a flash wave runs along the lights |
+| `eid` | `ramadan`, `fanoos` | lantern glows and swings, or a shooting star |
+| `lunar-new-year` | `chinese-new-year`, `spring-festival` | firecrackers pop with a paper shower |
+| `hearts` | `valentine` | a ring of hearts |
+| `confetti` | | confetti cannon, aimed inward near the edges |
+
+**Weather & nature**
+
 | name | aliases | `burst(x, y)` |
 | --- | --- | --- |
 | `snow` | | none |
@@ -45,6 +75,20 @@ The [playground](https://shresthadeepesh.github.io/festive-fx/#playground) layer
 | `holi` | `gulal` | throws a fistful of colour |
 | `stars` | `night` | shooting star from that point |
 | `fireflies` | | nearby fireflies flash and scatter |
+| `hail` | `hailstorm` | a fistful of bouncing hail |
+| `fog` | `mist` | a push wave clears a ring; the cursor parts it too |
+| `aurora` | `northern-lights` | a bright pulse runs along the curtains |
+| `sunbeams` | `godrays`, `sunlight` | lens-flare pulse |
+| `butterflies` | `butterfly` | nearby butterflies flee |
+
+**Celebrations & UI moments**
+
+| name | aliases | `burst(x, y)` |
+| --- | --- | --- |
+| `balloons` | `balloon` | pops nearby balloons, or releases one |
+| `bubbles` | `soap-bubbles` | pops nearby bubbles and blows new ones |
+| `sparkler` | `phuljhadi` | big crackle burst; follows the cursor |
+| `emoji` | `emojis` | an emoji fountain; set glyphs with `symbols` |
 
 ### What's in each
 
@@ -58,7 +102,27 @@ The [playground](https://shresthadeepesh.github.io/festive-fx/#playground) layer
 - **holi**: fistfuls of gulal thrown as expanding powder clouds that mix colours, flying grains, and colour splats with satellite drops and drips.
 - **stars**: twinkling field (denser toward the top, a few tinted blue or warm, the brightest with spikes) and shooting stars.
 - **fireflies**: wandering glow-worms with a real firefly blink rhythm; with `ground` on they hover low.
-- **leaves / sakura**: maple, oak and beech leaves, or cherry-blossom petals, with veins, a paler underside, depth layers and gusts that lift them. They settle on the ground and fade.
+- **leaves / sakura / lali-gurans**: maple, oak and beech leaves, cherry-blossom petals, or crimson rhododendron petals with the odd whole bloom, with veins, a paler underside, depth layers and gusts that lift them. They settle on the ground and fade.
+- **laxmi-paila**: pairs of alta-red footprints with toes, lotus dots and sindoor glitter walk in from the edges toward the middle, then fade.
+- **rangoli**: seeded 6–12-fold designs poured ring by ring in grainy powder colours, then lit by a ring of tiny diyas before fading.
+- **prayer-flags**: lungta strings in blue, white, red, green and yellow with cloth that ripples and shades in the gusts, printed with script and a wind horse.
+- **coins**: gold and silver coins spin in 3D with milled edges, a lotus motif and a sweeping glint, bounce, and pile into glinting mounds.
+- **teej**: glass bangles turn in 3D with see-through backs and gold bands, among bindis and mehendi swirls.
+- **chhath**: banana-leaf boats carrying diyas and marigolds float on sunrise water, with wavering reflections and ripples.
+- **newyear**: rockets fly, their sparks curve onto the year's letters, hold twinkling, fall, then a gold glitter burst; repeats.
+- **christmas**: C9 bulbs on twisted wire with coloured glow, cycling chase, twinkle, fade and sparkle modes.
+- **eid**: a crescent moon with earthshine and star, and brass fanoos lanterns with glowing glass panels swinging on chains.
+- **lunar-new-year**: ribbed red lanterns with gold caps and tassels, and firecracker strings that pop cracker by cracker and regrow.
+- **hearts**: glossy and line-art hearts rising with heartbeat twinkles.
+- **hail**: translucent pellets that bounce, skip, shatter and melt.
+- **fog**: parallax mist layers that breathe, pool low, and part around the cursor.
+- **aurora**: tall curtains of rays with a glowing green edge and violet crown, folding and shimmering.
+- **sunbeams**: god rays and lens-flare ghosts from a corner sun, with dust motes that glow inside the beams.
+- **butterflies**: monarchs, morphos, swallowtails and cabbage whites that wander, glide and flap.
+- **balloons**: glossy latex, foil and heart balloons on swinging curly strings.
+- **bubbles**: iridescent soap bubbles with window highlights that wobble and pop with a spray.
+- **sparkler**: a white-hot sparkler whose sparks fork mid-flight into crackle trees; it follows the cursor and traces an idle loop otherwise.
+- **emoji**: any glyphs you pass as `symbols`, falling and tumbling with depth.
 
 ## Layering
 
@@ -85,6 +149,8 @@ createFx({ effect: ['kites', 'marigold'] });                               // Da
 | `wind` | `0` | `-1` (left) to `1` (right) |
 | `size` | `1` | particle size |
 | `colors` | per effect | array of CSS colors |
+| `text` | current year | text for `newyear` |
+| `symbols` | a festive set | glyphs for `emoji`, e.g. `['🪔', '🎉']` |
 | `ground` | `true` | edge decorations: snow drifts, rain mist, settled leaves/petals, anar fountains, the diya row, marigold garlands along the top |
 | `zIndex` | `9999` | canvas z-index |
 | `interactive` | `false` | click/tap triggers `burst()` at pointer |
@@ -124,7 +190,7 @@ import 'festive-fx/element'; // registers <festive-fx>
 <festive-fx effect="tihar" fullscreen interactive colors="#ffd700,#ff9933,#ff3d7f"></festive-fx>
 ```
 
-Attributes: `effect density speed wind size colors ground="false" z-index duration interactive fullscreen autostart="false" respect-reduced-motion="false"`.
+Attributes: `effect density speed wind size colors text symbols ground="false" z-index duration interactive fullscreen autostart="false" respect-reduced-motion="false"`.
 Methods: `el.start()`, `el.stop()`, `el.burst(x, y)`, `el.controller`.
 
 ### Angular
@@ -187,6 +253,17 @@ Or register it globally with `app.use(FestiveFxPlugin)`.
 <!-- <festive-fx> is registered too -->
 ```
 
+## Celebrate
+
+A one-shot party popper for "order placed" moments: confetti cannons fire from both bottom corners, then the overlay removes itself.
+
+```js
+import { celebrate } from 'festive-fx';
+
+button.addEventListener('click', () => celebrate());
+celebrate({ duration: 3000, colors: ['#ffd700', '#ff9933'] });
+```
+
 ## Custom effects
 
 ```ts
@@ -199,7 +276,8 @@ const bubbles: EffectFactory = (opts) => {
     resize(nw, nh) { w = nw; h = nh; /* size your pool from opts.density */ },
     update(dt) { /* move by dt seconds * opts.speed */ },
     draw(ctx) { /* canvas is already cleared */ },
-    burst(x, y) { /* optional */ },
+    burst(x, y) { /* optional: click/tap with interactive, or fx.burst() */ },
+    pointer(x, y, inside) { /* optional: cursor moves over the target */ },
   };
 };
 
