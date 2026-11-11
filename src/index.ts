@@ -5,6 +5,7 @@ export {
   registerEffect,
   getEffect,
   listEffects,
+  coins,
   confetti,
   diyas,
   fireflies,

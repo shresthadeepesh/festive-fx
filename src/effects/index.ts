@@ -11,6 +11,7 @@ import { laliGurans, leaves, sakura } from './leaves';
 import { laxmiPaila } from './laxmi-paila';
 import { rangoli } from './rangoli';
 import { prayerFlags } from './prayer-flags';
+import { coins } from './coins';
 import { rain, storm } from './rain';
 import { snow } from './snow';
 
@@ -57,6 +58,8 @@ const registry = new Map<string, EffectFactory>([
   ['lali-gurans', laliGurans],
   ['laligurans', laliGurans],
   ['rhododendron', laliGurans],
+  ['coins', coins],
+  ['dhanteras', coins],
   // Other festivals
   // Nature
   // UI moments
@@ -76,6 +79,7 @@ export function listEffects(): string[] {
 }
 
 export {
+  coins,
   confetti,
   diyas,
   fireflies,
