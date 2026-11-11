@@ -15,7 +15,8 @@ export type BuiltinEffect =
   | 'kites'
   | 'laxmi-paila'
   | 'rangoli'
-  | 'prayer-flags';
+  | 'prayer-flags'
+  | 'lali-gurans';
 
 /** A built-in effect name, or the name of one added with `registerEffect`. */
 export type EffectName = BuiltinEffect | (string & {});

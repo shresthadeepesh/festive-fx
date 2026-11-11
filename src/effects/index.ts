@@ -7,7 +7,7 @@ import { holi } from './holi';
 import { kites } from './kites';
 import { marigold } from './marigold';
 import { stars } from './stars';
-import { leaves, sakura } from './leaves';
+import { laliGurans, leaves, sakura } from './leaves';
 import { laxmiPaila } from './laxmi-paila';
 import { rangoli } from './rangoli';
 import { prayerFlags } from './prayer-flags';
@@ -54,6 +54,9 @@ const registry = new Map<string, EffectFactory>([
   ['prayer-flags', prayerFlags],
   ['lungta', prayerFlags],
   ['losar', prayerFlags],
+  ['lali-gurans', laliGurans],
+  ['laligurans', laliGurans],
+  ['rhododendron', laliGurans],
   // Other festivals
   // Nature
   // UI moments
@@ -79,6 +82,7 @@ export {
   fireworks,
   holi,
   kites,
+  laliGurans,
   laxmiPaila,
   leaves,
   marigold,

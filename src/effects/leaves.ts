@@ -4,8 +4,10 @@ import { Litter } from './litter';
 
 const AUTUMN = ['#d2691e', '#e8a33d', '#b5452b', '#8b4513', '#f4c430', '#a0522d', '#c0392b', '#9c6b1f'];
 const SAKURA = ['#ffd1dc', '#ffb7c5', '#fcc9d3', '#f8a5c2', '#fff0f5'];
+/** Lali gurans: rhododendron arboreum, Nepal's national flower. */
+const LALI = ['#c8102e', '#e0234e', '#b5122f', '#f05a7e', '#ff8fa3'];
 
-type LeafShape = 'maple' | 'oak' | 'beech' | 'petal';
+type LeafShape = 'maple' | 'oak' | 'beech' | 'petal' | 'rhodo' | 'bloom';
 
 interface Leaf {
   x: number;
@@ -53,6 +55,15 @@ const outline = (ctx: CanvasRenderingContext2D, shape: LeafShape) => {
     ctx.moveTo(0, -20);
     ctx.bezierCurveTo(13, -10, 11, 8, 0, 15);
     ctx.bezierCurveTo(-11, 8, -13, -10, 0, -20);
+  } else if (shape === 'rhodo') {
+    // Broad rhododendron petal: narrow base, wide ruffled rounded tip
+    ctx.moveTo(0, 15);
+    ctx.bezierCurveTo(9, 11, 17, -2, 13, -11);
+    ctx.quadraticCurveTo(10, -17, 5, -15);
+    ctx.quadraticCurveTo(2, -18, 0, -15.5);
+    ctx.quadraticCurveTo(-2, -18, -5, -15);
+    ctx.quadraticCurveTo(-10, -17, -13, -11);
+    ctx.bezierCurveTo(-17, -2, -9, 11, 0, 15);
   } else {
     // Cherry blossom petal with the notch at its tip
     ctx.moveTo(0, 14);
@@ -64,10 +75,66 @@ const outline = (ctx: CanvasRenderingContext2D, shape: LeafShape) => {
   ctx.closePath();
 };
 
+/** Small rhododendron truss: five overlapping petals, spotted throat, curved stamens. */
+const bloomSprite = (color: string, back: boolean) =>
+  sprite(48, 48, (ctx) => {
+    ctx.translate(24, 24);
+    for (let i = 0; i < 5; i++) {
+      ctx.save();
+      ctx.rotate((i / 5) * TAU + 0.3);
+      ctx.translate(0, -9);
+      ctx.scale(0.62, 0.62);
+      outline(ctx, 'rhodo');
+      ctx.fillStyle = color;
+      ctx.fill();
+      const g = ctx.createLinearGradient(0, 15, 0, -15);
+      g.addColorStop(0, 'rgba(70,0,10,0.45)');
+      g.addColorStop(0.5, 'rgba(70,0,10,0)');
+      g.addColorStop(1, 'rgba(255,255,255,0.18)');
+      ctx.fillStyle = g;
+      ctx.fill();
+      ctx.strokeStyle = 'rgba(80,0,15,0.35)';
+      ctx.lineWidth = 0.8;
+      ctx.stroke();
+      ctx.restore();
+    }
+    // Dark nectar spots in the throat
+    ctx.fillStyle = 'rgba(60,0,10,0.7)';
+    for (let i = 0; i < 9; i++) {
+      const a = (i / 9) * TAU;
+      ctx.beginPath();
+      ctx.arc(Math.cos(a) * 4.5, Math.sin(a) * 4.5, 0.7, 0, TAU);
+      ctx.fill();
+    }
+    // Stamens with pale anthers
+    ctx.strokeStyle = 'rgba(255,220,225,0.85)';
+    ctx.lineWidth = 0.6;
+    for (let i = 0; i < 7; i++) {
+      const a = (i / 7) * TAU + 0.2;
+      const r = 9 + (i % 3) * 2;
+      const x = Math.cos(a) * r;
+      const y = Math.sin(a) * r;
+      ctx.beginPath();
+      ctx.moveTo(0, 0);
+      ctx.quadraticCurveTo(x * 0.4 + 2, y * 0.4 - 2, x, y);
+      ctx.stroke();
+      ctx.fillStyle = '#4a1b0c';
+      ctx.beginPath();
+      ctx.arc(x, y, 0.9, 0, TAU);
+      ctx.fill();
+    }
+    if (back) {
+      ctx.globalCompositeOperation = 'source-atop';
+      ctx.fillStyle = 'rgba(255,255,255,0.15)';
+      ctx.fillRect(-24, -24, 48, 48);
+    }
+  });
+
 const leafSprite = (shape: LeafShape, color: string, back: boolean) =>
   sprite(48, 48, (ctx) => {
     ctx.translate(24, 24);
-    const petal = shape === 'petal';
+    const rhodo = shape === 'rhodo';
+    const petal = shape === 'petal' || rhodo;
 
     if (!petal) {
       // Stem
@@ -88,7 +155,10 @@ const leafSprite = (shape: LeafShape, color: string, back: boolean) =>
     ctx.save();
     ctx.clip();
     const g = ctx.createLinearGradient(-15, -15, 15, 15);
-    if (petal) {
+    if (rhodo) {
+      g.addColorStop(0, 'rgba(255,235,240,0.2)');
+      g.addColorStop(1, 'rgba(255,255,255,0)');
+    } else if (petal) {
       g.addColorStop(0, 'rgba(255,255,255,0.35)');
       g.addColorStop(1, 'rgba(255,255,255,0)');
     } else {
@@ -97,7 +167,20 @@ const leafSprite = (shape: LeafShape, color: string, back: boolean) =>
     }
     ctx.fillStyle = g;
     ctx.fillRect(-24, -24, 48, 48);
-    if (petal) {
+    if (rhodo) {
+      // Deeper crimson toward the base, freckled throat spots
+      const b = ctx.createRadialGradient(0, 15, 0, 0, 15, 22);
+      b.addColorStop(0, 'rgba(80,0,15,0.5)');
+      b.addColorStop(1, 'rgba(80,0,15,0)');
+      ctx.fillStyle = b;
+      ctx.fillRect(-24, -24, 48, 48);
+      ctx.fillStyle = 'rgba(70,0,12,0.55)';
+      for (const [x, y, r] of [[-3, 5, 0.9], [2, 4, 0.8], [0, 1, 1], [-4, 0, 0.7], [4, -1, 0.7], [-1, -3, 0.6], [3, -5, 0.6], [-3, -5, 0.5]]) {
+        ctx.beginPath();
+        ctx.arc(x, y, r, 0, TAU);
+        ctx.fill();
+      }
+    } else if (petal) {
       // Blush at the base
       const b = ctx.createRadialGradient(0, 14, 0, 0, 14, 14);
       b.addColorStop(0, 'rgba(230,80,120,0.45)');
@@ -107,13 +190,18 @@ const leafSprite = (shape: LeafShape, color: string, back: boolean) =>
     }
 
     // Veins
-    ctx.strokeStyle = petal ? 'rgba(200,90,120,0.25)' : 'rgba(60,25,5,0.4)';
+    ctx.strokeStyle = rhodo ? 'rgba(90,0,20,0.3)' : petal ? 'rgba(200,90,120,0.25)' : 'rgba(60,25,5,0.4)';
     ctx.lineWidth = petal ? 0.6 : 0.8;
     ctx.beginPath();
     if (shape === 'maple') {
       for (const [x, y] of [[0, -18], [16, -9], [-16, -9], [17, 1], [-17, 1]]) {
         ctx.moveTo(0, 9);
         ctx.lineTo(x * 0.85, y * 0.85);
+      }
+    } else if (rhodo) {
+      for (const x of [-11, -6, -2, 2, 6, 11]) {
+        ctx.moveTo(0, 14);
+        ctx.quadraticCurveTo(x * 0.5, 0, x, -12);
       }
     } else if (petal) {
       for (const x of [-6, -2, 2, 6]) {
@@ -142,9 +230,10 @@ const leafSprite = (shape: LeafShape, color: string, back: boolean) =>
   });
 
 export const makeLeaves =
-  (kind: 'leaves' | 'sakura'): EffectFactory =>
+  (kind: 'leaves' | 'sakura' | 'laligurans'): EffectFactory =>
   (o) => {
-    const petals = kind === 'sakura';
+    const lali = kind === 'laligurans';
+    const petals = kind === 'sakura' || lali;
     let w = 0;
     let h = 0;
     let t = rand(0, 100);
@@ -152,26 +241,32 @@ export const makeLeaves =
     const litter = new Litter(60);
     const sprites = spriteCache((key: string) => {
       const [shape, color, back] = key.split('|');
-      return leafSprite(shape as LeafShape, color, back === '1');
+      return shape === 'bloom' ? bloomSprite(color, back === '1') : leafSprite(shape as LeafShape, color, back === '1');
     });
 
-    const palette = () => paletteOr(o.colors, petals ? SAKURA : AUTUMN);
+    const palette = () => paletteOr(o.colors, lali ? LALI : petals ? SAKURA : AUTUMN);
 
     const make = (anywhere: boolean, z = rand(0.55, 1.25)): Leaf => {
-      const s = (petals ? rand(6, 9) : rand(11, 17)) * o.size * z;
+      const shape: LeafShape = lali
+        ? Math.random() < 0.14
+          ? 'bloom'
+          : 'rhodo'
+        : petals
+          ? 'petal'
+          : pick<LeafShape>(['maple', 'maple', 'oak', 'beech']);
+      const s = (shape === 'bloom' ? rand(16, 21) : lali ? rand(9.5, 13.5) : petals ? rand(6, 9) : rand(11, 17)) * o.size * z;
       const color = pick(palette());
-      const shape: LeafShape = petals ? 'petal' : pick<LeafShape>(['maple', 'maple', 'oak', 'beech']);
       return {
         x: rand(-20, w + 20),
         y: anywhere ? rand(-h * 0.2, h) : rand(-80, -s * 2),
         vx: 0,
         s,
         z,
-        vy: (petals ? rand(28, 50) : rand(38, 70)) * z,
+        vy: (shape === 'bloom' ? rand(45, 65) : petals ? rand(28, 50) : rand(38, 70)) * z,
         rot: rand(0, TAU),
         vrot: rand(-1.4, 1.4),
         flip: rand(0, TAU),
-        vflip: rand(1.5, 3.8) * (petals ? 1.3 : 1),
+        vflip: rand(1.5, 3.8) * (shape === 'bloom' ? 0.35 : petals ? 1.3 : 1),
         sway: rand(25, 65) * z,
         phase: rand(0, TAU),
         front: sprites(`${shape}|${color}|0`),
@@ -185,7 +280,7 @@ export const makeLeaves =
       resize(nw, nh) {
         w = nw;
         h = nh;
-        const n = countFor(w, h, petals ? 70 : 35, o.density);
+        const n = countFor(w, h, lali ? 50 : petals ? 70 : 35, o.density);
         while (pool.length < n) pool.push(make(true));
         pool.length = n;
         sortByDepth();
@@ -251,3 +346,4 @@ export const makeLeaves =
 
 export const leaves = makeLeaves('leaves');
 export const sakura = makeLeaves('sakura');
+export const laliGurans = makeLeaves('laligurans');
