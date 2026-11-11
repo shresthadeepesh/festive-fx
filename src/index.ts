@@ -7,6 +7,7 @@ export {
   listEffects,
   aurora,
   balloons,
+  bubbles,
   butterflies,
   chhath,
   christmas,
