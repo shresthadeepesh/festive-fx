@@ -23,11 +23,14 @@
       const cases = [
         ['snow', 1], ['rain', 1], ['storm', 1], ['fireworks', 1], ['fireworks', 3], ['confetti', 1],
         ['leaves', 1], ['sakura', 1], ['diyas', 1], ['stars', 1], ['fireflies', 1], ['marigold', 1],
-        ['holi', 1], ['kites', 1],
+        ['holi', 1], ['kites', 1], ['laxmi-paila', 1], ['rangoli', 1], ['prayer-flags', 1], ['lali-gurans', 1],
+        ['coins', 1], ['teej', 1], ['chhath', 1], ['christmas', 1], ['newyear', 1], ['eid', 1],
+        ['lunar-new-year', 1], ['hearts', 1], ['aurora', 1], ['fog', 1], ['bubbles', 1], ['butterflies', 1],
+        ['hail', 1], ['sunbeams', 1], ['balloons', 1], ['sparkler', 1], ['emoji', 1],
       ];
       const counted = ['stroke', 'fill', 'fillRect', 'drawImage', 'save', 'restore', 'setTransform', 'beginPath'];
       const ctx = document.getElementById('c').getContext('2d');
-      const opts = (density) => ({ density, speed: 1, wind: 0.2, size: 1, colors: undefined, ground: true });
+      const opts = (density) => ({ density, speed: 1, wind: 0.2, size: 1, colors: undefined, ground: true, text: undefined, symbols: undefined });
 
       function run(name, density, count) {
         const fx = FestiveFx.getEffect(name)(opts(density));
