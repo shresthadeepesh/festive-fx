@@ -10,6 +10,7 @@ import { stars } from './stars';
 import { leaves, sakura } from './leaves';
 import { laxmiPaila } from './laxmi-paila';
 import { rangoli } from './rangoli';
+import { prayerFlags } from './prayer-flags';
 import { rain, storm } from './rain';
 import { snow } from './snow';
 
@@ -50,6 +51,9 @@ const registry = new Map<string, EffectFactory>([
   ['rangoli', rangoli],
   ['mandala', rangoli],
   ['kolam', rangoli],
+  ['prayer-flags', prayerFlags],
+  ['lungta', prayerFlags],
+  ['losar', prayerFlags],
   // Other festivals
   // Nature
   // UI moments
@@ -78,6 +82,7 @@ export {
   laxmiPaila,
   leaves,
   marigold,
+  prayerFlags,
   rain,
   rangoli,
   sakura,

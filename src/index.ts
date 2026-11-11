@@ -14,6 +14,7 @@ export {
   laxmiPaila,
   leaves,
   marigold,
+  prayerFlags,
   rain,
   rangoli,
   sakura,
