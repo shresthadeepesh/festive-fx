@@ -13,7 +13,8 @@ export type BuiltinEffect =
   | 'marigold'
   | 'holi'
   | 'kites'
-  | 'laxmi-paila';
+  | 'laxmi-paila'
+  | 'rangoli';
 
 /** A built-in effect name, or the name of one added with `registerEffect`. */
 export type EffectName = BuiltinEffect | (string & {});

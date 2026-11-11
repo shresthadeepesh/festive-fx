@@ -15,6 +15,7 @@ export {
   leaves,
   marigold,
   rain,
+  rangoli,
   sakura,
   snow,
   stars,

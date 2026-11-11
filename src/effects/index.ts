@@ -9,6 +9,7 @@ import { marigold } from './marigold';
 import { stars } from './stars';
 import { leaves, sakura } from './leaves';
 import { laxmiPaila } from './laxmi-paila';
+import { rangoli } from './rangoli';
 import { rain, storm } from './rain';
 import { snow } from './snow';
 
@@ -46,6 +47,9 @@ const registry = new Map<string, EffectFactory>([
   ['laxmi-paila', laxmiPaila],
   ['paila', laxmiPaila],
   ['footprints', laxmiPaila],
+  ['rangoli', rangoli],
+  ['mandala', rangoli],
+  ['kolam', rangoli],
   // Other festivals
   // Nature
   // UI moments
@@ -75,6 +79,7 @@ export {
   leaves,
   marigold,
   rain,
+  rangoli,
   sakura,
   snow,
   stars,
