@@ -12,6 +12,7 @@ import { laxmiPaila } from './laxmi-paila';
 import { rangoli } from './rangoli';
 import { prayerFlags } from './prayer-flags';
 import { coins } from './coins';
+import { teej } from './teej';
 import { rain, storm } from './rain';
 import { snow } from './snow';
 
@@ -60,6 +61,8 @@ const registry = new Map<string, EffectFactory>([
   ['rhododendron', laliGurans],
   ['coins', coins],
   ['dhanteras', coins],
+  ['teej', teej],
+  ['bangles', teej],
   // Other festivals
   // Nature
   // UI moments
@@ -97,4 +100,5 @@ export {
   snow,
   stars,
   storm,
+  teej,
 };
