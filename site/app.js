@@ -2,35 +2,52 @@
 (() => {
   const { createFx } = window.FestiveFx;
 
-  /** Gallery metadata. cardDensity compensates for small cards (populations scale with area). */
-  const EFFECTS = [
-    { id: 'fireworks', name: 'Fireworks', tag: 'Tihar · Deepawali', bg: 'night', cardDensity: 1.4,
-      desc: 'Rockets, ten shell types, smoke and anar fountains from the ground.', aliases: ['rockets', 'diwali', 'tihar'] },
-    { id: 'diyas', name: 'Diyas & lanterns', tag: 'Tihar', bg: 'night', cardDensity: 3,
-      desc: 'Painted clay lamps with flickering flames, embers and rising sky lanterns.', aliases: ['lanterns', 'lights'] },
-    { id: 'marigold', name: 'Marigold', tag: 'Tihar · Dashain', bg: 'dusk', cardDensity: 3,
-      desc: 'Sayapatri garlands along the top, falling petals and flowers.', aliases: ['sayapatri', 'garland'] },
-    { id: 'kites', name: 'Kites', tag: 'Dashain', bg: 'day', cardDensity: 6,
-      desc: 'Changa that bob, loop the loop and get cut loose. Click one to cut it.', aliases: ['changa', 'dashain'] },
-    { id: 'holi', name: 'Holi', tag: 'Holi', bg: 'light', cardDensity: 1.4,
-      desc: 'Gulal thrown as mixing colour clouds, grains and dripping splats.', aliases: ['gulal'] },
-    { id: 'confetti', name: 'Confetti', tag: 'Any party', bg: 'plum', cardDensity: 3,
-      desc: 'Stars, streamers and foil that flip in 3D. Click for a cannon.', aliases: [] },
-    { id: 'snow', name: 'Snow', tag: 'Winter', bg: 'night', cardDensity: 2.5,
-      desc: 'Three depth layers, rotating crystals and a drift that piles up.', aliases: [] },
-    { id: 'rain', name: 'Rain', tag: 'Monsoon', bg: 'night', cardDensity: 2.5,
-      desc: 'Bright-headed drops, crown splashes, ripples and ground mist.', aliases: [] },
-    { id: 'storm', name: 'Thunderstorm', tag: 'Monsoon', bg: 'night', cardDensity: 2.5,
-      desc: 'Slanted rain with branching lightning. Click to strike.', aliases: ['thunderstorm'] },
-    { id: 'stars', name: 'Stars', tag: 'Night', bg: 'night', cardDensity: 3,
-      desc: 'A twinkling field with shooting stars. Click to send one.', aliases: ['night'] },
-    { id: 'fireflies', name: 'Fireflies', tag: 'Summer', bg: 'forest', cardDensity: 4,
-      desc: 'Wandering glows with a real firefly blink. Click to startle them.', aliases: [] },
-    { id: 'leaves', name: 'Autumn leaves', tag: 'Autumn', bg: 'dusk', cardDensity: 3,
-      desc: 'Maple, oak and beech leaves that tumble, gust and settle.', aliases: ['autumn'] },
-    { id: 'sakura', name: 'Sakura', tag: 'Spring', bg: 'plum', cardDensity: 3,
-      desc: 'Cherry-blossom petals drifting down. Click to blow them away.', aliases: ['petals'] },
+  /** Gallery metadata, grouped. cardDensity compensates for small cards (populations scale with area). */
+  const GROUPS = [
+    { name: 'Nepal & South Asia', effects: [
+      { id: 'fireworks', name: 'Fireworks', tag: 'Tihar · Deepawali', bg: 'night', cardDensity: 1.4, desc: 'Rockets, ten shell types, smoke and anar fountains from the ground.', aliases: ['rockets', 'diwali', 'tihar'] },
+      { id: 'diyas', name: 'Diyas & lanterns', tag: 'Tihar', bg: 'night', cardDensity: 3, desc: 'Painted clay lamps with flickering flames, embers and rising sky lanterns.', aliases: ['lanterns', 'lights'] },
+      { id: 'laxmi-paila', name: 'Laxmi paila', tag: 'Tihar', bg: 'light', cardDensity: 1, desc: "Laxmi's alta-red footprints walk in from the edge, with sindoor glitter where each lands.", aliases: ['paila', 'footprints'] },
+      { id: 'rangoli', name: 'Rangoli', tag: 'Tihar · Deepawali', bg: 'dusk', cardDensity: 1, desc: 'A symmetric rangoli poured ring by ring in grainy powder colours, then lit by tiny diyas.', aliases: ['mandala', 'kolam'] },
+      { id: 'marigold', name: 'Marigold', tag: 'Tihar · Dashain', bg: 'dusk', cardDensity: 3, desc: 'Sayapatri garlands along the top, falling petals and flowers.', aliases: ['sayapatri', 'garland'] },
+      { id: 'coins', name: 'Coins', tag: 'Dhanteras', bg: 'dusk', cardDensity: 3, desc: 'Gold and silver coins spin in 3D, bounce and pile up with glints.', aliases: ['dhanteras'] },
+      { id: 'kites', name: 'Kites', tag: 'Dashain', bg: 'day', cardDensity: 6, desc: 'Changa that bob, loop the loop and get cut loose. Click one to cut it.', aliases: ['changa', 'dashain'] },
+      { id: 'prayer-flags', name: 'Prayer flags', tag: 'Losar', bg: 'day', cardDensity: 1, desc: 'Lungta strings ripple and shade in the gusts, printed with script and a wind horse.', aliases: ['lungta', 'losar'] },
+      { id: 'lali-gurans', name: 'Lali gurans', tag: 'Spring · Nepal', bg: 'plum', cardDensity: 4, desc: "Crimson rhododendron petals, Nepal's national flower, with the odd whole bloom.", aliases: ['rhododendron'] },
+      { id: 'holi', name: 'Holi', tag: 'Holi', bg: 'light', cardDensity: 1.4, desc: 'Gulal thrown as mixing colour clouds, grains and dripping splats.', aliases: ['gulal'] },
+      { id: 'teej', name: 'Teej', tag: 'Teej', bg: 'forest', cardDensity: 5, desc: 'Glass bangles tumble in 3D among bindis and mehendi swirls.', aliases: ['bangles'] },
+      { id: 'chhath', name: 'Chhath', tag: 'Chhath', bg: 'dusk', cardDensity: 4, desc: 'Diyas on banana-leaf boats float on sunrise water with reflections.', aliases: ['chhath-puja'] },
+    ] },
+    { name: 'Festivals worldwide', effects: [
+      { id: 'newyear', name: 'New Year', tag: 'New Year', bg: 'night', cardDensity: 1, desc: 'Rockets write the year in sparks, hold it twinkling, then drop it in gold glitter.', aliases: ['new-year', 'countdown'] },
+      { id: 'christmas', name: 'Christmas lights', tag: 'Christmas', bg: 'night', cardDensity: 1, desc: 'C9 string lights with chase, twinkle, fade and sparkle modes. Layer with snow.', aliases: ['xmas', 'fairy-lights'] },
+      { id: 'eid', name: 'Eid', tag: 'Eid · Ramadan', bg: 'night', cardDensity: 2, desc: 'Crescent moon and star, twinkling sky, and fanoos lanterns swinging on brass chains.', aliases: ['ramadan', 'fanoos'] },
+      { id: 'lunar-new-year', name: 'Lunar New Year', tag: 'Lunar New Year', bg: 'red', cardDensity: 2, desc: 'Glowing red lanterns and firecracker strings that pop from the bottom up.', aliases: ['chinese-new-year'] },
+      { id: 'hearts', name: 'Hearts', tag: 'Valentine · weddings', bg: 'plum', cardDensity: 3, desc: 'Glossy and line-art hearts rise and wobble, with heartbeat twinkles.', aliases: ['valentine'] },
+      { id: 'confetti', name: 'Confetti', tag: 'Any party', bg: 'plum', cardDensity: 3, desc: 'Stars, streamers and foil that flip in 3D. Click for a cannon.', aliases: [] },
+    ] },
+    { name: 'Weather & nature', effects: [
+      { id: 'snow', name: 'Snow', tag: 'Winter', bg: 'night', cardDensity: 2.5, desc: 'Three depth layers, rotating crystals and a drift that piles up.', aliases: [] },
+      { id: 'rain', name: 'Rain', tag: 'Monsoon', bg: 'night', cardDensity: 2.5, desc: 'Bright-headed drops, crown splashes, ripples and ground mist.', aliases: [] },
+      { id: 'storm', name: 'Thunderstorm', tag: 'Monsoon', bg: 'night', cardDensity: 2.5, desc: 'Slanted rain with branching lightning. Click to strike.', aliases: ['thunderstorm'] },
+      { id: 'hail', name: 'Hail', tag: 'Storm', bg: 'night', cardDensity: 3, desc: 'Icy pellets that streak, bounce, shatter and melt on the ground.', aliases: ['hailstorm'] },
+      { id: 'fog', name: 'Fog', tag: 'Mist', bg: 'dusk', cardDensity: 3, desc: 'Layered drifting mist that parts around your cursor and heals behind it.', aliases: ['mist'] },
+      { id: 'aurora', name: 'Aurora', tag: 'Night', bg: 'night', cardDensity: 1.5, desc: 'Northern-light curtains with sliding rays. Layer with stars.', aliases: ['northern-lights'] },
+      { id: 'stars', name: 'Stars', tag: 'Night', bg: 'night', cardDensity: 3, desc: 'A twinkling field with shooting stars. Click to send one.', aliases: ['night'] },
+      { id: 'sunbeams', name: 'Sunbeams', tag: 'Day', bg: 'forest', cardDensity: 2, desc: 'God rays and lens flare from a corner sun, with dust glinting in the beams.', aliases: ['godrays'] },
+      { id: 'fireflies', name: 'Fireflies', tag: 'Summer', bg: 'forest', cardDensity: 4, desc: 'Wandering glows with a real firefly blink. Click to startle them.', aliases: [] },
+      { id: 'butterflies', name: 'Butterflies', tag: 'Spring', bg: 'forest', cardDensity: 5, desc: 'Monarchs, morphos, swallowtails and whites wandering, gliding and flapping.', aliases: ['butterfly'] },
+      { id: 'leaves', name: 'Autumn leaves', tag: 'Autumn', bg: 'dusk', cardDensity: 3, desc: 'Maple, oak and beech leaves that tumble, gust and settle.', aliases: ['autumn'] },
+      { id: 'sakura', name: 'Sakura', tag: 'Spring', bg: 'plum', cardDensity: 3, desc: 'Cherry-blossom petals drifting down. Click to blow them away.', aliases: ['petals'] },
+    ] },
+    { name: 'Celebrations & UI moments', effects: [
+      { id: 'balloons', name: 'Balloons', tag: 'Birthdays', bg: 'day', cardDensity: 7, desc: 'Glossy latex and foil balloons on curly strings. Click to pop.', aliases: ['balloon'] },
+      { id: 'bubbles', name: 'Bubbles', tag: 'Playful', bg: 'day', cardDensity: 4, desc: 'Iridescent soap bubbles that wobble, drift and pop with a spray.', aliases: ['soap-bubbles'] },
+      { id: 'sparkler', name: 'Sparkler', tag: 'Cursor', bg: 'night', cardDensity: 1.5, desc: 'A sparkler that follows your cursor, crackling with branching sparks.', aliases: ['phuljhadi'] },
+      { id: 'emoji', name: 'Emoji rain', tag: 'Any moment', bg: 'plum', cardDensity: 3, desc: "Any emoji falling and tumbling: set symbols: ['🪔', '🎉'].", aliases: ['emojis'] },
+    ] },
   ];
+  const EFFECTS = GROUPS.flatMap((g) => g.effects);
 
   const PALETTES = [
     { id: 'default', name: 'Effect default', colors: [] },
@@ -86,7 +103,8 @@
 
   /* ----------------------------------------------------------------- gallery */
   const grid = $('#grid');
-  for (const fx of EFFECTS) {
+  $('#gallery-title').textContent = `${EFFECTS.length} effects, all live`;
+  const card = (fx) => {
     const stage = el('festive-fx', { className: `bg-${fx.bg}` });
     stage.setAttribute('effect', fx.id);
     stage.setAttribute('density', String(fx.cardDensity));
@@ -96,10 +114,10 @@
     const tryBtn = el('button', { type: 'button', className: 'try', textContent: 'Open in playground →' });
     tryBtn.addEventListener('click', () => {
       setEffects([fx.id]);
-      setBackground(fx.bg === 'forest' || fx.bg === 'plum' ? 'night' : fx.bg);
+      setBackground(['forest', 'plum', 'red'].includes(fx.bg) ? 'night' : fx.bg);
       $('#playground').scrollIntoView();
     });
-    grid.append(
+    return (
       el('article', { className: 'card' }, [
         stage,
         el('div', { className: 'card-body' }, [
@@ -111,6 +129,14 @@
           aliases,
           tryBtn,
         ]),
+      ])
+    );
+  };
+  for (const g of GROUPS) {
+    grid.append(
+      el('section', { className: 'group' }, [
+        el('h3', { className: 'group-title', textContent: g.name }),
+        el('div', { className: 'grid' }, g.effects.map(card)),
       ]),
     );
   }
@@ -134,10 +160,18 @@
     ground: true,
     interactive: true,
     bg: 'night',
+    text: '',
+    symbolsText: '',
   };
 
   const colors = () =>
     state.colorsText
+      .split(',')
+      .map((c) => c.trim())
+      .filter(Boolean);
+
+  const symbols = () =>
+    state.symbolsText
       .split(',')
       .map((c) => c.trim())
       .filter(Boolean);
@@ -151,6 +185,8 @@
     ground: state.ground,
     interactive: state.interactive,
     colors: colors(),
+    text: state.text.trim(),
+    symbols: symbols(),
   });
 
   let stageFx = null;
@@ -166,8 +202,26 @@
     stageFx?.update(opts);
     pageFx?.update(opts);
     renderChips();
+    renderContentFields();
     renderCode();
   };
+
+  // Text / symbols inputs only show for effects that use them
+  const renderContentFields = () => {
+    const text = state.effects.includes('newyear');
+    const sym = state.effects.includes('emoji');
+    $('#text-field').hidden = !text;
+    $('#symbols-field').hidden = !sym;
+    $('#content-fields').hidden = !text && !sym;
+  };
+  $('#text').addEventListener('input', (e) => {
+    state.text = e.target.value;
+    apply();
+  });
+  $('#symbols').addEventListener('input', (e) => {
+    state.symbolsText = e.target.value;
+    apply();
+  });
 
   // Effect chips
   const chips = $('#chips');
@@ -294,6 +348,8 @@
     if (!o.ground) out.push(['ground', false]);
     if (o.interactive) out.push(['interactive', true]);
     if (o.colors.length) out.push(['colors', o.colors]);
+    if (o.text && state.effects.includes('newyear')) out.push(['text', o.text]);
+    if (o.symbols.length && state.effects.includes('emoji')) out.push(['symbols', o.symbols]);
     return out;
   };
 

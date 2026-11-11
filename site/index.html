@@ -60,7 +60,7 @@
           <h2 id="gallery-title">Thirteen effects, all live</h2>
           <p>Each card is running the real thing. Click inside a card to trigger its burst.</p>
         </div>
-        <div class="grid" id="grid"></div>
+        <div id="grid"></div>
       </section>
 
       <section class="section" id="playground" aria-labelledby="pg-title">
@@ -123,6 +123,16 @@
               <legend>Colours</legend>
               <div class="chips" id="palettes"></div>
               <input type="text" id="colors" placeholder="#ffd700, #ff9933, hotpink" aria-label="Custom colours" />
+            </fieldset>
+
+            <fieldset id="content-fields" hidden>
+              <legend>Content</legend>
+              <label class="field" id="text-field" hidden>Text for <code>newyear</code>
+                <input type="text" id="text" placeholder="2083" />
+              </label>
+              <label class="field" id="symbols-field" hidden>Symbols for <code>emoji</code>
+                <input type="text" id="symbols" placeholder="🪔, 🎉, ✨" />
+              </label>
             </fieldset>
 
             <fieldset class="toggles">

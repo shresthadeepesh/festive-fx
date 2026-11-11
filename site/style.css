@@ -68,6 +68,7 @@ button {
 .bg-light { background: var(--bg-light); color: #2b2420; }
 .bg-forest { background: var(--bg-forest); }
 .bg-plum { background: var(--bg-plum); }
+.bg-red { background: linear-gradient(180deg, #1a0508 0%, #3a0c12 100%); }
 
 /* ---------- reduced-motion banner ---------- */
 .rm-banner {
@@ -274,6 +275,17 @@ h1 em {
 }
 
 /* ---------- gallery ---------- */
+.group + .group {
+  margin-top: 48px;
+}
+.group-title {
+  margin: 0 0 16px;
+  color: var(--marigold);
+  font: 600 13px var(--body);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
 .grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(min(100%, 270px), 1fr));
@@ -559,6 +571,23 @@ input[type='text'] {
   background: var(--page);
   color: var(--ink);
   font: 14px var(--mono);
+}
+
+.field {
+  display: block;
+  font-size: 14px;
+  color: var(--ink-soft);
+}
+.field + .field {
+  margin-top: 12px;
+}
+.field code {
+  font: 13px var(--mono);
+  color: var(--marigold);
+}
+fieldset[hidden],
+.field[hidden] {
+  display: none;
 }
 
 /* ---------- code ---------- */
