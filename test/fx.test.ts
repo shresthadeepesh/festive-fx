@@ -1,6 +1,6 @@
 // @vitest-environment jsdom
 import { afterEach, beforeAll, describe, expect, it, vi } from 'vitest';
-import { createFx, getEffect, listEffects, registerEffect } from '../src';
+import { celebrate, createFx, getEffect, listEffects, registerEffect } from '../src';
 import type { ResolvedEffectOptions } from '../src';
 import '../src/element';
 
@@ -45,6 +45,10 @@ describe('built-in effects', () => {
   const names = [
     'snow', 'rain', 'storm', 'fireworks', 'confetti', 'leaves', 'sakura', 'diyas',
     'stars', 'fireflies', 'marigold', 'holi', 'kites',
+    'laxmi-paila', 'rangoli', 'prayer-flags', 'lali-gurans', 'coins', 'teej', 'chhath',
+    'christmas', 'newyear', 'eid', 'lunar-new-year', 'hearts',
+    'aurora', 'fog', 'bubbles', 'butterflies', 'hail', 'sunbeams',
+    'balloons', 'sparkler', 'emoji',
   ];
 
   it('are registered, plus festival aliases', () => {
@@ -69,6 +73,21 @@ describe('built-in effects', () => {
       });
     }
   }
+
+  it('survives tiny and zero-size surfaces', () => {
+    for (const name of names) {
+      for (const [w, h] of [[0, 0], [1, 1], [120, 80]]) {
+        const effect = getEffect(name)!(opts());
+        effect.resize(w, h);
+        for (let i = 0; i < 120; i++) effect.update(1 / 60);
+        effect.burst?.(w / 2, h / 2);
+        effect.pointer?.(w / 2, h / 2, true);
+        const { ctx, nums } = fakeCtx();
+        effect.draw(ctx);
+        expect([name, w, nums.every(Number.isFinite)]).toEqual([name, w, true]);
+      }
+    }
+  });
 
   it('density 0 with no ground spawns nothing on its own', () => {
     for (const name of names) {
@@ -194,6 +213,47 @@ describe('createFx', () => {
     expect(draw).toHaveBeenCalled();
     fx.destroy();
   });
+
+  it('forwards pointer moves and leaves to effects that want them, through layers', () => {
+    const pointer = vi.fn();
+    registerEffect('cursor', () => ({ resize() {}, update() {}, draw() {}, pointer }));
+    document.body.innerHTML = '<div id="t"></div>';
+    const host = document.getElementById('t')!;
+    const fx = createFx({ effect: ['snow', 'cursor'], target: host });
+    host.dispatchEvent(new MouseEvent('pointermove', { clientX: 12, clientY: 34 }));
+    expect(pointer).toHaveBeenLastCalledWith(12, 34, true);
+    host.dispatchEvent(new MouseEvent('pointerleave'));
+    expect(pointer).toHaveBeenLastCalledWith(-1, -1, false);
+    fx.destroy();
+    host.dispatchEvent(new MouseEvent('pointermove', { clientX: 1, clientY: 1 }));
+    expect(pointer).toHaveBeenCalledTimes(2); // listeners removed on destroy
+  });
+
+  it('passes text and symbols through to effects, live', () => {
+    let seen: ResolvedEffectOptions | null = null;
+    registerEffect('spy', (o) => ((seen = o), { resize() {}, update() {}, draw() {} }));
+    const fx = createFx({ effect: 'spy', text: '2083', symbols: ['🪔', '🎉'] });
+    expect(seen!.text).toBe('2083');
+    expect(seen!.symbols).toEqual(['🪔', '🎉']);
+    fx.update({ text: '', symbols: [] });
+    expect(seen!.text).toBeUndefined();
+    expect(seen!.symbols).toBeUndefined();
+    fx.destroy();
+  });
+
+  it('celebrate() fires a confetti overlay that removes itself', () => {
+    vi.useFakeTimers();
+    try {
+      const fx = celebrate({ duration: 1000 });
+      expect(fx.canvas).not.toBeNull();
+      expect(document.querySelectorAll('canvas').length).toBe(1);
+      vi.advanceTimersByTime(1100);
+      expect(fx.canvas).toBeNull();
+      expect(document.querySelectorAll('canvas').length).toBe(0);
+    } finally {
+      vi.useRealTimers();
+    }
+  });
 });
 
 describe('<festive-fx>', () => {
@@ -205,6 +265,7 @@ describe('<festive-fx>', () => {
     expect(el.querySelector('p')!.textContent).toBe('hi');
     expect(el.controller!.running).toBe(true);
 
+    el.setAttribute('symbols', '🪔, 🎉');
     el.setAttribute('effect', 'stars, fireflies');
     expect(el.controller!.running).toBe(true);
     el.setAttribute('effect', 'leaves');
