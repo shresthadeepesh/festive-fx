@@ -3,66 +3,162 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>festive-fx demo</title>
+    <title>festive-fx dev demo</title>
     <style>
       :root { color-scheme: dark; font-family: system-ui, sans-serif; }
       body { margin: 0; min-height: 100vh; background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%); color: #e8e8f0; }
-      main { max-width: 760px; margin: 0 auto; padding: 32px 16px; position: relative; z-index: 10000; }
+      main { max-width: 900px; margin: 0 auto; padding: 32px 16px 64px; position: relative; z-index: 10000; }
       h1 { margin: 0 0 4px; font-size: 28px; }
-      p { color: #a9b0c3; margin: 0 0 20px; }
-      .effects { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
-      button { font: inherit; padding: 8px 14px; border-radius: 999px; border: 1px solid #3a4256; background: #161b26; color: inherit; cursor: pointer; }
+      h2 { margin: 28px 0 10px; font-size: 13px; letter-spacing: 0.08em; text-transform: uppercase; color: #ffb347; }
+      p { color: #a9b0c3; margin: 0 0 16px; }
+      .chips { display: flex; flex-wrap: wrap; gap: 6px; }
+      button { font: inherit; font-size: 14px; padding: 6px 12px; border-radius: 999px; border: 1px solid #3a4256; background: #161b26; color: inherit; cursor: pointer; }
       button[aria-pressed='true'] { background: #ffb347; color: #1a1205; border-color: #ffb347; }
-      .controls { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; margin-bottom: 28px; }
+      .controls { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 12px 16px; }
       label { display: grid; gap: 4px; font-size: 13px; color: #a9b0c3; }
-      festive-fx { height: 220px; border-radius: 16px; overflow: hidden; background: linear-gradient(160deg, #2b1055, #7597de); display: grid; place-items: center; }
-      festive-fx h2 { margin: 0; text-shadow: 0 2px 12px #0008; }
+      label.check { display: flex; align-items: center; gap: 8px; align-self: end; padding-bottom: 8px; }
+      label output { margin-left: 4px; }
+      input[type='text'] { padding: 7px 10px; border-radius: 8px; border: 1px solid #3a4256; background: #0b0e15; color: inherit; font: 13px ui-monospace, Menlo, monospace; }
+      output { font: 12px ui-monospace, Menlo, monospace; color: #e8e8f0; }
+      .actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+      .wrapped { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 12px; }
+      festive-fx { height: 200px; border-radius: 16px; overflow: hidden; display: grid; place-items: center; text-align: center; }
+      festive-fx h3 { margin: 0; text-shadow: 0 2px 12px #0008; font-size: 18px; }
+      .bg-night { background: linear-gradient(160deg, #2b1055, #7597de); }
+      .bg-dusk { background: linear-gradient(180deg, #2a1330, #8a4a2a); }
       code { background: #0008; padding: 2px 6px; border-radius: 6px; }
+      #status { min-height: 1.4em; font-size: 13px; color: #8f98ad; }
     </style>
   </head>
   <body>
     <main>
       <h1>festive-fx</h1>
-      <p>Pick an effect, then click anywhere: fireworks launch a rocket, diyas release a lantern, marigold throws petals, kites get cut, holi throws gulal, stars shoot, storm strikes lightning.</p>
-      <div class="effects" id="effects"></div>
+      <p>
+        Local dev page for the built library (<code>npm run build</code> first). Pick an effect or a layered preset,
+        tune it, and click anywhere on the page to trigger the current effect's burst.
+      </p>
+
+      <div id="groups"></div>
+
+      <h2>Options</h2>
       <div class="controls">
-        <label>Density <input id="density" type="range" min="0" max="3" step="0.1" value="1" /></label>
-        <label>Speed <input id="speed" type="range" min="0.2" max="3" step="0.1" value="1" /></label>
-        <label>Wind <input id="wind" type="range" min="-1" max="1" step="0.1" value="0" /></label>
-        <label>Size <input id="size" type="range" min="0.5" max="2.5" step="0.1" value="1" /></label>
-        <label>Ground <input id="ground" type="checkbox" checked /></label>
+        <label><span>Density <output id="density-out">1</output></span><input id="density" type="range" min="0" max="3" step="0.1" value="1" /></label>
+        <label><span>Speed <output id="speed-out">1</output></span><input id="speed" type="range" min="0.2" max="3" step="0.1" value="1" /></label>
+        <label><span>Wind <output id="wind-out">0</output></span><input id="wind" type="range" min="-1" max="1" step="0.1" value="0" /></label>
+        <label><span>Size <output id="size-out">1</output></span><input id="size" type="range" min="0.5" max="2.5" step="0.1" value="1" /></label>
+        <label><span>Colors</span><input id="colors" type="text" placeholder="#ffd700, #ff9933, hotpink" /></label>
+        <label><span>Text for <code>newyear</code></span><input id="text" type="text" placeholder="current year" /></label>
+        <label><span>Symbols for <code>emoji</code></span><input id="symbols" type="text" placeholder="🪔, 🎉, ✨" /></label>
+        <label class="check"><input id="ground" type="checkbox" checked /> Ground (edge decorations)</label>
+        <label class="check"><input id="interactive" type="checkbox" checked /> Click to burst</label>
       </div>
 
-      <festive-fx effect="snow" density="1.2">
-        <h2>Wrapped with <code>&lt;festive-fx&gt;</code></h2>
-      </festive-fx>
+      <div class="actions">
+        <button type="button" id="burst">burst()</button>
+        <button type="button" id="pause" aria-pressed="false">Pause</button>
+        <button type="button" id="celebrate">celebrate()</button>
+      </div>
+      <p id="status"></p>
+
+      <h2>Wrapped with <code>&lt;festive-fx&gt;</code></h2>
+      <div class="wrapped">
+        <festive-fx class="bg-night" effect="snow" density="1.2">
+          <h3>Snow inside a card</h3>
+        </festive-fx>
+        <festive-fx class="bg-dusk" effect="fog" density="2">
+          <h3>Fog: move your cursor here</h3>
+        </festive-fx>
+        <festive-fx class="bg-night" effect="emoji" symbols="🪔, 🎆, 🌼" density="2" interactive>
+          <h3>Emoji via <code>symbols</code> attribute</h3>
+        </festive-fx>
+        <festive-fx class="bg-night" effect="newyear" text="2083" density="1">
+          <h3>&nbsp;</h3>
+        </festive-fx>
+      </div>
     </main>
 
     <script src="../dist/festive-fx.iife.js"></script>
     <script>
-      const fx = FestiveFx.createFx({ effect: 'fireworks', interactive: true, respectReducedMotion: false });
-      const names = {
-        'tihar night': ['stars', 'diyas', 'fireworks'],
-        fireworks: 'fireworks', diyas: 'diyas', marigold: 'marigold', kites: 'kites', holi: 'holi',
-        stars: 'stars', fireflies: 'fireflies', snow: 'snow', rain: 'rain', storm: 'storm',
-        confetti: 'confetti', leaves: 'leaves', sakura: 'sakura',
+      const { createFx, celebrate, listEffects } = FestiveFx;
+
+      // Grouped like the demo site; anything registered but not listed lands in "Other".
+      const GROUPS = {
+        'Layered presets': {
+          'tihar night': ['stars', 'diyas', 'fireworks'],
+          'dashain day': ['kites', 'marigold'],
+          'christmas eve': ['christmas', 'snow'],
+          'polar night': ['stars', 'aurora'],
+          'summer evening': ['fireflies', 'sunbeams'],
+        },
+        'Nepal & South Asia': ['fireworks', 'diyas', 'laxmi-paila', 'rangoli', 'marigold', 'coins', 'kites', 'prayer-flags', 'lali-gurans', 'holi', 'teej', 'chhath'],
+        'Festivals worldwide': ['newyear', 'christmas', 'eid', 'lunar-new-year', 'hearts', 'confetti'],
+        'Weather & nature': ['snow', 'rain', 'storm', 'hail', 'fog', 'aurora', 'stars', 'sunbeams', 'fireflies', 'butterflies', 'leaves', 'sakura'],
+        'Celebrations & UI': ['balloons', 'bubbles', 'sparkler', 'emoji'],
       };
-      const box = document.getElementById('effects');
-      for (const [name, effect] of Object.entries(names)) {
-        const b = document.createElement('button');
-        b.textContent = name;
-        b.setAttribute('aria-pressed', String(name === 'fireworks'));
-        b.onclick = (e) => {
-          e.stopPropagation();
-          fx.update({ effect });
-          box.querySelectorAll('button').forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
-        };
-        box.append(b);
+      const listed = new Set(Object.values(GROUPS).flatMap((g) => (Array.isArray(g) ? g : [])));
+      // Aliases share a factory with a listed name, so compare factories, not names
+      const seen = new Set([...listed].map((n) => FestiveFx.getEffect(n)));
+      const other = listEffects().filter((n) => {
+        const factory = FestiveFx.getEffect(n);
+        if (seen.has(factory)) return false;
+        seen.add(factory);
+        return true;
+      });
+      if (other.length) GROUPS.Other = other;
+
+      const fx = createFx({ effect: 'fireworks', interactive: true, respectReducedMotion: false });
+      const status = document.getElementById('status');
+      const say = (msg) => (status.textContent = msg);
+
+      const groups = document.getElementById('groups');
+      const buttons = [];
+      for (const [title, entries] of Object.entries(GROUPS)) {
+        const items = Array.isArray(entries) ? entries.map((n) => [n, n]) : Object.entries(entries);
+        const chips = document.createElement('div');
+        chips.className = 'chips';
+        for (const [label, effect] of items) {
+          const b = document.createElement('button');
+          b.type = 'button';
+          b.textContent = label;
+          b.setAttribute('aria-pressed', String(label === 'fireworks'));
+          b.onclick = () => {
+            fx.update({ effect });
+            buttons.forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
+            say(`effect: ${JSON.stringify(effect)}`);
+          };
+          buttons.push(b);
+          chips.append(b);
+        }
+        const h = document.createElement('h2');
+        h.textContent = title;
+        groups.append(h, chips);
       }
+
       for (const key of ['density', 'speed', 'wind', 'size']) {
-        document.getElementById(key).oninput = (e) => fx.update({ [key]: Number(e.target.value) });
+        const input = document.getElementById(key);
+        input.oninput = () => {
+          document.getElementById(`${key}-out`).textContent = input.value;
+          fx.update({ [key]: Number(input.value) });
+        };
       }
+      const list = (v) => v.split(',').map((s) => s.trim()).filter(Boolean);
+      document.getElementById('colors').oninput = (e) => fx.update({ colors: list(e.target.value) });
+      document.getElementById('text').oninput = (e) => fx.update({ text: e.target.value.trim() });
+      document.getElementById('symbols').oninput = (e) => fx.update({ symbols: list(e.target.value) });
       document.getElementById('ground').onchange = (e) => fx.update({ ground: e.target.checked });
+      document.getElementById('interactive').onchange = (e) => fx.update({ interactive: e.target.checked });
+
+      document.getElementById('burst').onclick = () => fx.burst();
+      document.getElementById('pause').onclick = (e) => {
+        const paused = fx.running;
+        paused ? fx.stop() : fx.start();
+        e.currentTarget.setAttribute('aria-pressed', String(paused));
+        e.currentTarget.textContent = paused ? 'Resume' : 'Pause';
+      };
+      document.getElementById('celebrate').onclick = () => {
+        celebrate({ respectReducedMotion: false });
+        say('celebrate(): two confetti volleys, then the overlay removes itself');
+      };
     </script>
   </body>
 </html>
