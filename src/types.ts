@@ -19,6 +19,7 @@ export type BuiltinEffect =
   | 'lali-gurans'
   | 'aurora'
   | 'fog'
+  | 'butterflies'
   | 'hail'
   | 'sunbeams'
   | 'christmas'

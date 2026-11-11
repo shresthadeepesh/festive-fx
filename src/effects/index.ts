@@ -13,6 +13,7 @@ import { rangoli } from './rangoli';
 import { prayerFlags } from './prayer-flags';
 import { aurora } from './aurora';
 import { fog } from './fog';
+import { butterflies } from './butterflies';
 import { hail } from './hail';
 import { sunbeams } from './sunbeams';
 import { christmas } from './christmas';
@@ -95,6 +96,8 @@ const registry = new Map<string, EffectFactory>([
   ['northern-lights', aurora],
   ['fog', fog],
   ['mist', fog],
+  ['butterflies', butterflies],
+  ['butterfly', butterflies],
   ['hail', hail],
   ['hailstorm', hail],
   ['sunbeams', sunbeams],
@@ -118,6 +121,7 @@ export function listEffects(): string[] {
 
 export {
   aurora,
+  butterflies,
   chhath,
   christmas,
   coins,
