@@ -18,6 +18,7 @@ import { butterflies } from './butterflies';
 import { hail } from './hail';
 import { sunbeams } from './sunbeams';
 import { balloons } from './balloons';
+import { sparkler } from './sparkler';
 import { christmas } from './christmas';
 import { newyear } from './newyear';
 import { eid } from './eid';
@@ -110,6 +111,8 @@ const registry = new Map<string, EffectFactory>([
   // UI moments
   ['balloons', balloons],
   ['balloon', balloons],
+  ['sparkler', sparkler],
+  ['phuljhadi', sparkler],
 ]);
 
 /** Add (or replace) an effect so it can be used by name everywhere, including `<festive-fx effect="...">`. */
@@ -154,6 +157,7 @@ export {
   rangoli,
   sakura,
   snow,
+  sparkler,
   stars,
   storm,
   sunbeams,

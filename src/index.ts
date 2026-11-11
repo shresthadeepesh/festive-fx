@@ -33,6 +33,7 @@ export {
   rangoli,
   sakura,
   snow,
+  sparkler,
   stars,
   storm,
   sunbeams,
