@@ -11,6 +11,7 @@ import { laliGurans, leaves, sakura } from './leaves';
 import { laxmiPaila } from './laxmi-paila';
 import { rangoli } from './rangoli';
 import { prayerFlags } from './prayer-flags';
+import { hail } from './hail';
 import { christmas } from './christmas';
 import { newyear } from './newyear';
 import { eid } from './eid';
@@ -87,6 +88,8 @@ const registry = new Map<string, EffectFactory>([
   ['hearts', hearts],
   ['valentine', hearts],
   // Nature
+  ['hail', hail],
+  ['hailstorm', hail],
   // UI moments
 ]);
 
@@ -112,6 +115,7 @@ export {
   eid,
   fireflies,
   fireworks,
+  hail,
   hearts,
   holi,
   kites,

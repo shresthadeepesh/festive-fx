@@ -13,6 +13,7 @@ export {
   eid,
   fireflies,
   fireworks,
+  hail,
   hearts,
   holi,
   kites,
