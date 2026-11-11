@@ -5,6 +5,7 @@ export {
   registerEffect,
   getEffect,
   listEffects,
+  chhath,
   coins,
   confetti,
   diyas,

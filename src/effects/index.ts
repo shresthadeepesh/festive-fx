@@ -13,6 +13,7 @@ import { rangoli } from './rangoli';
 import { prayerFlags } from './prayer-flags';
 import { coins } from './coins';
 import { teej } from './teej';
+import { chhath } from './chhath';
 import { rain, storm } from './rain';
 import { snow } from './snow';
 
@@ -63,6 +64,8 @@ const registry = new Map<string, EffectFactory>([
   ['dhanteras', coins],
   ['teej', teej],
   ['bangles', teej],
+  ['chhath', chhath],
+  ['chhath-puja', chhath],
   // Other festivals
   // Nature
   // UI moments
@@ -82,6 +85,7 @@ export function listEffects(): string[] {
 }
 
 export {
+  chhath,
   coins,
   confetti,
   diyas,
