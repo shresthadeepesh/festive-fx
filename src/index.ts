@@ -6,6 +6,7 @@ export {
   getEffect,
   listEffects,
   chhath,
+  christmas,
   coins,
   confetti,
   diyas,
