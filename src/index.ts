@@ -10,6 +10,7 @@ export {
   coins,
   confetti,
   diyas,
+  eid,
   fireflies,
   fireworks,
   holi,

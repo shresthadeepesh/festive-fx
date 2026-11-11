@@ -13,6 +13,7 @@ import { rangoli } from './rangoli';
 import { prayerFlags } from './prayer-flags';
 import { christmas } from './christmas';
 import { newyear } from './newyear';
+import { eid } from './eid';
 import { coins } from './coins';
 import { teej } from './teej';
 import { chhath } from './chhath';
@@ -75,6 +76,9 @@ const registry = new Map<string, EffectFactory>([
   ['newyear', newyear],
   ['new-year', newyear],
   ['countdown', newyear],
+  ['eid', eid],
+  ['ramadan', eid],
+  ['fanoos', eid],
   // Nature
   // UI moments
 ]);
@@ -98,6 +102,7 @@ export {
   coins,
   confetti,
   diyas,
+  eid,
   fireflies,
   fireworks,
   holi,

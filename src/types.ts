@@ -19,6 +19,7 @@ export type BuiltinEffect =
   | 'lali-gurans'
   | 'christmas'
   | 'newyear'
+  | 'eid'
   | 'coins'
   | 'teej'
   | 'chhath';
