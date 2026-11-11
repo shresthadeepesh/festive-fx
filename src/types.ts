@@ -23,7 +23,8 @@ export type BuiltinEffect =
   | 'lunar-new-year'
   | 'coins'
   | 'teej'
-  | 'chhath';
+  | 'chhath'
+  | 'hearts';
 
 /** A built-in effect name, or the name of one added with `registerEffect`. */
 export type EffectName = BuiltinEffect | (string & {});

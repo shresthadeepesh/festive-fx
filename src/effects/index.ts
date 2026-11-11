@@ -18,6 +18,7 @@ import { lunarNewYear } from './lunar-new-year';
 import { coins } from './coins';
 import { teej } from './teej';
 import { chhath } from './chhath';
+import { hearts } from './hearts';
 import { rain, storm } from './rain';
 import { snow } from './snow';
 
@@ -83,6 +84,8 @@ const registry = new Map<string, EffectFactory>([
   ['lunar-new-year', lunarNewYear],
   ['chinese-new-year', lunarNewYear],
   ['spring-festival', lunarNewYear],
+  ['hearts', hearts],
+  ['valentine', hearts],
   // Nature
   // UI moments
 ]);
@@ -109,6 +112,7 @@ export {
   eid,
   fireflies,
   fireworks,
+  hearts,
   holi,
   kites,
   laliGurans,
