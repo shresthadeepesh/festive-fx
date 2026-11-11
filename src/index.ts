@@ -15,6 +15,7 @@ export {
   confetti,
   diyas,
   eid,
+  emoji,
   fireflies,
   fireworks,
   fog,

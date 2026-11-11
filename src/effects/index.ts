@@ -19,6 +19,7 @@ import { hail } from './hail';
 import { sunbeams } from './sunbeams';
 import { balloons } from './balloons';
 import { sparkler } from './sparkler';
+import { emoji } from './emoji';
 import { christmas } from './christmas';
 import { newyear } from './newyear';
 import { eid } from './eid';
@@ -113,6 +114,8 @@ const registry = new Map<string, EffectFactory>([
   ['balloon', balloons],
   ['sparkler', sparkler],
   ['phuljhadi', sparkler],
+  ['emoji', emoji],
+  ['emojis', emoji],
 ]);
 
 /** Add (or replace) an effect so it can be used by name everywhere, including `<festive-fx effect="...">`. */
@@ -139,6 +142,7 @@ export {
   confetti,
   diyas,
   eid,
+  emoji,
   fireflies,
   fireworks,
   fog,

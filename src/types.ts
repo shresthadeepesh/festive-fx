@@ -25,6 +25,7 @@ export type BuiltinEffect =
   | 'sunbeams'
   | 'balloons'
   | 'sparkler'
+  | 'emoji'
   | 'christmas'
   | 'newyear'
   | 'eid'
