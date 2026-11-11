@@ -1,5 +1,24 @@
 export { createFx } from './engine';
-export { registerEffect, getEffect, listEffects, snow, rain, storm, fireworks, confetti, leaves, sakura, diyas, stars, fireflies, marigold, holi, kites } from './effects';
+export { celebrate } from './celebrate';
+export type { CelebrateOptions } from './celebrate';
+export {
+  registerEffect,
+  getEffect,
+  listEffects,
+  confetti,
+  diyas,
+  fireflies,
+  fireworks,
+  holi,
+  kites,
+  leaves,
+  marigold,
+  rain,
+  sakura,
+  snow,
+  stars,
+  storm,
+} from './effects';
 /** Helpers for writing fast custom effects (see README, Development). */
 export {
   ALPHA_STEPS,

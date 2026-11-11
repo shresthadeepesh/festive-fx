@@ -206,8 +206,11 @@ export const confetti: EffectFactory = (o) => {
       for (const p of pieces) if (!p.recycle) added++;
       const n = Math.min(170, MAX_BURST - added);
       const power = Math.min(1.5, Math.max(0.6, h / 700));
+      // Fired from near a side edge, the cannon tilts toward the middle.
+      const aim = -Math.PI / 2 + (x < w * 0.15 ? 0.55 : x > w * 0.85 ? -0.55 : 0);
+      const spread = aim === -Math.PI / 2 ? 0.85 : 0.5;
       for (let i = 0; i < n; i++) {
-        const a = -Math.PI / 2 + rand(-0.85, 0.85); // upward cone
+        const a = aim + rand(-spread, spread);
         const v = rand(250, 720) * power;
         pieces.push(make(x, y, Math.cos(a) * v, Math.sin(a) * v, false));
       }
