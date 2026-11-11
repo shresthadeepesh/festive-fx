@@ -14,6 +14,7 @@ import { prayerFlags } from './prayer-flags';
 import { aurora } from './aurora';
 import { fog } from './fog';
 import { hail } from './hail';
+import { sunbeams } from './sunbeams';
 import { christmas } from './christmas';
 import { newyear } from './newyear';
 import { eid } from './eid';
@@ -96,6 +97,9 @@ const registry = new Map<string, EffectFactory>([
   ['mist', fog],
   ['hail', hail],
   ['hailstorm', hail],
+  ['sunbeams', sunbeams],
+  ['godrays', sunbeams],
+  ['sunlight', sunbeams],
   // UI moments
 ]);
 
@@ -140,5 +144,6 @@ export {
   snow,
   stars,
   storm,
+  sunbeams,
   teej,
 };

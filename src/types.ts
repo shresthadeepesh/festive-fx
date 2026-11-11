@@ -20,6 +20,7 @@ export type BuiltinEffect =
   | 'aurora'
   | 'fog'
   | 'hail'
+  | 'sunbeams'
   | 'christmas'
   | 'newyear'
   | 'eid'

@@ -32,6 +32,7 @@ export {
   snow,
   stars,
   storm,
+  sunbeams,
   teej,
 } from './effects';
 /** Helpers for writing fast custom effects (see README, Development). */
