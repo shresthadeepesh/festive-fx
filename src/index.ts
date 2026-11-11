@@ -11,6 +11,7 @@ export {
   fireworks,
   holi,
   kites,
+  laxmiPaila,
   leaves,
   marigold,
   rain,

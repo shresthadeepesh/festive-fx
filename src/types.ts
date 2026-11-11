@@ -12,7 +12,8 @@ export type BuiltinEffect =
   | 'fireflies'
   | 'marigold'
   | 'holi'
-  | 'kites';
+  | 'kites'
+  | 'laxmi-paila';
 
 /** A built-in effect name, or the name of one added with `registerEffect`. */
 export type EffectName = BuiltinEffect | (string & {});
