@@ -17,6 +17,7 @@ export type BuiltinEffect =
   | 'rangoli'
   | 'prayer-flags'
   | 'lali-gurans'
+  | 'aurora'
   | 'fog'
   | 'hail'
   | 'christmas'

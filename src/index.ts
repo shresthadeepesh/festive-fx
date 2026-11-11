@@ -5,6 +5,7 @@ export {
   registerEffect,
   getEffect,
   listEffects,
+  aurora,
   chhath,
   christmas,
   coins,
